@@ -1,4 +1,4 @@
-Code Inspector
+#Code Inspector
 ​أداة خفيفة لفحص وتحليل الشفرات البرمجية ساكناً، متخصصة في معالجة أربع لغات أساسية:
 ​Python
 ​JavaScript
