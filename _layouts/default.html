@@ -1,1 +1,20 @@
-<!-- to do -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-bs-theme="auto">
+  <head>
+    <!--{%- include analytics.html -%}-->
+    <meta charset="UTF-8" >
+    {%- include site_version.html -%}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>{{ page.title }}</title>
+    {%- include head_links.html -%}
+  </head>
+  <body>
+    <div
+      class="container my-2 py-2 main-content-wrapper"
+    >
+      {{ content }}
+    </div>
+    {%- include footer.html -%} {%- include scripts.html
+    -%}
+  </body>
+</html>
