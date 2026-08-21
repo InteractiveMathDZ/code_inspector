@@ -74,3 +74,13 @@ button:hover {
 .text-danger {
   color: #f87171;
 }
+
+.selectstyle {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background: #0f172a;
+    color: white;
+    border: 1px solid #334155;
+}
