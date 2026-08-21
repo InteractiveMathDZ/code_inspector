@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فاحص الكود الاحترافي | Code Inspector</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 40px auto; background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
+        h1 { text-align: center; color: var(--primary-color); }
+        textarea { width: 100%; height: 200px; padding: 15px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #cbd5e1; font-family: monospace; resize: vertical; box-sizing: border-box; margin-bottom: 15px; }
+        button { width: 100%; padding: 12px; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #1d4ed8; }
+        #reportOutput { margin-top: 20px; padding: 20px; background: #0f172a; border-radius: 8px; border-right: 4px solid var(--primary-color); min-height: 50px; }
+        .report-box h3 { margin-top: 0; color: #60a5fa; }
+        .text-danger { color: #f87171; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Code Inspector</h1>
+    
+    <!-- قائمة اختيار اللغة -->
+    <select id="languageSelect" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; background: #0f172a; color: white; border: 1px solid #334155;">
+        <option value="python">Python</option>
+        <option value="javascript">JavaScript</option>
+    </select>
+
+    <textarea id="codeInput" placeholder="ألصق الكود الخاص بك هنا للتحليل..."></textarea>
+    <button id="inspectBtn" onclick="inspectCode()">فحص الكود</button>
+    <div id="reportOutput"></div>
+</div>
+
+<script>
+    async function inspectCode() {
+        const codeInput = document.getElementById("codeInput").value;
+        const language = document.getElementById("languageSelect").value;
+        const outputElement = document.getElementById("reportOutput");
+        const inspectBtn = document.getElementById("inspectBtn");
+
+        if (!codeInput.trim()) {
+            outputElement.innerHTML = "<p class='text-danger'>يرجى إدخال شفرة برمجية أولاً.</p>";
+            return;
+        }
+
+        inspectBtn.disabled = true;
+        inspectBtn.innerText = "جاري الفحص...";
+        outputElement.innerHTML = "<p>جاري الاتصال بالسيرفر...</p>";
+
+        try {
+            const response = await fetch("https://interactivemathdz.pythonanywhere.com/inspect", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    code: codeInput,
+                    language: language 
+                })
+            });
+
+            const data = await response.json();
+
+            // معالجة الرد حسب الهيكل الموديلر الجديد
+            if (data.raw_error) {
+                outputElement.innerHTML = `<p class='text-danger'>خطأ في الخادم: ${data.raw_error}</p>`;
+            } else if (data.is_valid) {
+                outputElement.innerHTML = `
+                    <div class="report-box">
+                        <h3>نتائج الفحص (${data.tool})</h3>
+                        <p style="color: #4ade80;">✔ الكود سليم تماماً وخالٍ من الأخطاء!</p>
+                    </div>
+                `;
+            } else {
+                let issuesHTML = `
+                    <div class="report-box">
+                        <h3 class="text-danger">تم اكتشاف ${data.total_issues} من الأخطاء/التنبيهات (${data.tool}):</h3>
+                        <ul>
+                `;
+                
+                data.issues.forEach(issue => {
+                    issuesHTML += `
+                        <li style="margin-bottom: 8px;">
+                            <strong>السطر ${issue.line}، العمود ${issue.column}:</strong> 
+                            ${issue.message} 
+                            <span style="color: #94a3b8;">(${issue.rule || issue.severity})</span>
+                        </li>
+                    `;
+                });
+
+                issuesHTML += `</ul></div>`;
+                outputElement.innerHTML = issuesHTML;
+            }
+        } catch (error) {
+            outputElement.innerHTML = "<p class='text-danger'>تعذر الاتصال بالسيرفر. تأكد من عمل PythonAnywhere.</p>";
+        } finally {
+            inspectBtn.disabled = false;
+            inspectBtn.innerText = "فحص الكود";
+        }
+    }
+</script>
+
+</body>
+</html>
