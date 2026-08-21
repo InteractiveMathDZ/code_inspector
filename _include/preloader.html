@@ -1,0 +1,41 @@
+<div
+  id="loader-wrapper"
+  class="preloader-style"
+>
+  <div
+    class="spinner-border text-primary spinner-border-style"
+    role="status"
+  >
+    <span class="visually-hidden">جاري التحميل...</span>
+  </div>
+</div>
+
+<script>
+  window.addEventListener("load", function () {
+    const loader = document.getElementById("loader-wrapper");
+
+    // الدالة التي ترفع الستارة
+    const liftCurtain = () => {
+      loader.style.transition = "opacity 0.6s ease";
+      loader.style.opacity = "0";
+      setTimeout(() => {
+        loader.style.display = "none";
+        document.body.style.visibility = "visible";
+      }, 600);
+    };
+
+    // الفحص الذكي: هل MathJax موجود؟
+    if (window.MathJax && typeof MathJax.typesetPromise === "function") {
+      // إذا كان موجوداً، ننتظر انتهاء المعادلات
+      MathJax.typesetPromise()
+        .then(liftCurtain)
+        .catch((err) => {
+          console.warn("MathJax Error:", err);
+          liftCurtain(); // نرفع الستارة حتى لو فشل التنسيق
+        });
+    } else {
+      // إذا لم يكن موجوداً (مثل صفحة الفهرس)، نرفع الستارة فوراً
+      liftCurtain();
+    }
+  });
+</script>
