@@ -1,0 +1,17 @@
+<script src="{{ '/assets/js/script.js' | relative_url }}"></script>
+
+<script>
+  // التحقق من وجود وسم الآدمن قبل تحميل وتشغيل الكونسول
+  if (localStorage.getItem("role") === "admin") {
+    // 1. إنشاء عنصر سكريبت لتحميل المكتبة ديناميكياً
+    var script = document.createElement("script");
+    script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
+
+    script.onload = function () {
+      // 2. تشغيل الكونسول بعد اكتمال تحميل المكتبة
+      window.vConsole = new window.VConsole();
+    };
+
+    document.head.appendChild(script);
+  }
+</script>
