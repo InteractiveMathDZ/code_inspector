@@ -2,16 +2,14 @@
 layout: default
 title: "فاحص كود | Code Inspector."
 ---
-<div class="container">
-    <h1>Code Inspector</h1>
+<h1>Code Inspector</h1>
     
-    <!-- قائمة اختيار اللغة -->
-    <select id="languageSelect" class="selectstyle" dir="ltr">
-        <option value="python">Python</option>
-        <option value="javascript">JavaScript</option>
-    </select>
+<!-- قائمة اختيار اللغة -->
+<select id="languageSelect" class="selectstyle" dir="ltr">
+    <option value="python">Python</option>
+    <option value="javascript">JavaScript</option>
+</select>
 
-    <textarea id="codeInput" placeholder="ألصق الكود الخاص بك هنا للتحليل..."></textarea>
-    <button id="inspectBtn" onclick="inspectCode()">فحص الكود</button>
-    <div id="reportOutput"></div>
-</div>
+<textarea id="codeInput" placeholder="ألصق الكود الخاص بك هنا للتحليل..."></textarea>
+<button id="inspectBtn" onclick="inspectCode()">فحص الكود</button>
+<div id="reportOutput"></div>
