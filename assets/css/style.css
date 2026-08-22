@@ -1,14 +1,41 @@
-:root {
-    --primary-color: #2563eb;
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --text-color: #f8fafc;
+/* الألوان الافتراضية (الوضع المضيء) */
+:root[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --text-primary: #1f2937;
+  --panel-bg: #ffffff;
+  --border-color: #cbd5e1;
+  --code-bg: #f1f5f9;
+  
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-text: #ffffff;
+  
+  --heading-accent: #2563eb;
+  --danger-color: #dc2626;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ألوان الوضع المظلم */
+:root[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --text-primary: #f8fafc;
+  --panel-bg: #1e293b;
+  --border-color: #334155;
+  --code-bg: #111827;
+  
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-text: #ffffff;
+  
+  --heading-accent: #60a5fa;
+  --danger-color: #f87171;
+  --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
 body { 
   font-family: 'Segoe UI', sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   margin: 0;
   padding: 20px; 
 }
@@ -16,15 +43,15 @@ body {
 .container {
   max-width: 800px;
   margin: 40px auto;
-  background: var(--card-bg);
+  background: var(--panel-bg);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 15px -3px var(--shadow-color);
 }
 
 h1 {
   text-align: center;
-  color: var(--primary-color); 
+  color: var(--text-primary); 
 }
 
 textarea {
@@ -32,9 +59,9 @@ textarea {
   height: 200px;
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid #334155;
-  background: #0f172a;
-  color: #cbd5e1;
+  border: 1px solid var(--border-color);
+  background: var(--code-bg);
+  color: var(--text-primary);
   font-family: monospace;
   resize: vertical;
   box-sizing: border-box;
@@ -45,7 +72,7 @@ button {
   width: 100%;
   padding: 12px;
   background-color: var(--primary-color);
-  color: white;
+  color: var(--primary-text);
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -54,13 +81,14 @@ button {
 }
 
 button:hover {
-  background-color: #1d4ed8;
+  background-color: var(--primary-hover);
 }
 
 #reportOutput {
   margin-top: 20px;
   padding: 20px;
-  background: #0f172a;
+  background: var(--code-bg);
+  color: var(--text-primary);
   border-radius: 8px; 
   border-right: 4px solid var(--primary-color);
   min-height: 50px;
@@ -68,19 +96,19 @@ button:hover {
 
 .report-box h3 {
   margin-top: 0;
-  color: #60a5fa;
+  color: var(--heading-accent);
 }
 
 .text-danger {
-  color: #f87171;
+  color: var(--danger-color);
 }
 
 .selectstyle {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    background: #0f172a;
-    color: white;
-    border: 1px solid #334155;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background: var(--code-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
 }
