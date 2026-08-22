@@ -1,14 +1,9 @@
-/* تحسين الأساسيات وتطبيق الاتجاه RTL */
-html {
-  direction: rtl;
-}
-
 /* تعريف المتغيرات الشاملة (لضمان تغطية كل شيء) */
 :root[data-theme="light"] {
   --bg-primary: #f0f2f5;       /* خلفية الصفحة */
   --text-primary: #1f2937;
   --card-bg: #ffffff;         /* خلفية الحاوية الرئيسية */
-  --border-color: #e2e8f0;    /* لون الحدود الناعمة */
+  --border-color: #e2e8ff;    /* لون الحدود الناعمة */
   
   --primary-color: #2563eb;    /* لون الزر الأساسي */
   --primary-hover: #1d4ed8;    /* لون الزر عند التحويم */
@@ -25,7 +20,7 @@ html {
   --bg-primary: #111827;
   --text-primary: #f8fafc;
   --card-bg: #1f2937;
-  --border-color: #374151;
+  --border-color: #374159;
   
   --primary-color: #3b82f6;
   --primary-hover: #2563eb;
@@ -70,20 +65,6 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 15px; /* مباعدة بين العناصر */
-}
-
-/* حاوية تسمية اللغة (Python) وقائمة الاختيار */
-.select-style-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  direction: rtl;
-}
-
-.select-label {
-  font-weight: 600;
-  color: var(--text-primary);
 }
 
 select {
