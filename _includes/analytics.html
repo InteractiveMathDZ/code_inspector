@@ -5,5 +5,11 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-K2ZSXLKHQG');
+  gtag('config', 'G-K2ZSXLKHQG', {
+    'allow_google_signals': false,             // تعطيل الإشارات الإعلانية
+    'allow_ad_personalization_signals': false, // منع تخصيص الإعلانات
+    'restricted_data_processing': true,        // معالجة مقيدة للبيانات
+    // إرسال رابط الصفحة مجرداً بدون أي مدخلات أو بريد إلكتروني قد يظهر بعد علامة (?)
+    'page_location': window.location.protocol + '//' + window.location.host + window.location.pathname
+  });
 </script>
