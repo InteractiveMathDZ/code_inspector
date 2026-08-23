@@ -1,5 +1,5 @@
 /* تعريف المتغيرات الشاملة (لضمان تغطية كل شيء) */
-:root[data-theme="light"] {
+:root {
   --bg-primary: #f0f2f5;       /* خلفية الصفحة */
   --text-primary: #1f2937;
   --card-bg: #ffffff;         /* خلفية الحاوية الرئيسية */
@@ -16,7 +16,8 @@
 }
 
 /* ألوان الوضع المظلم (للاستمرارية) */
-:root[data-theme="dark"] {
+@media (prefers-color-scheme: dark) {
+:root {
   --bg-primary: #111827;
   --text-primary: #f8fafc;
   --card-bg: #1f2937;
@@ -30,6 +31,7 @@
   --footer-text: #9ca3af;
   
   --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
 }
 
 body { 
