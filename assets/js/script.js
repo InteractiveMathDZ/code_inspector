@@ -45,9 +45,9 @@ async function inspectCode() {
                 data.issues.forEach(issue => {
                     issuesHTML += `
                         <li style="margin-bottom: 8px;">
-                            <strong>السطر ${issue.line}، العمود ${issue.column}:</strong><br> 
+                            <strong>السطر ${issue.line}، العمود ${issue.column}:</strong><p>
                             ${issue.message} 
-                            <span style="color: #94a3b8;">(${issue.rule || issue.severity})</span>
+                            <span style="color: #94a3b8;">(${issue.rule || issue.severity})</span></p>
                         </li>
                     `;
                 });
