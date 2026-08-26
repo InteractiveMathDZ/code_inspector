@@ -5,13 +5,13 @@ async function inspectCode() {
         const inspectBtn = document.getElementById("inspectBtn");
 
         if (!codeInput.trim()) {
-            outputElement.innerHTML = "<p class='text-danger'>يرجى إدخال شفرة برمجية أولاً.</p>";
+            outputElement.innerHTML = "<p class='text-danger' dir="rtl">يرجى إدخال شفرة برمجية أولاً.</p>";
             return;
         }
 
         inspectBtn.disabled = true;
         inspectBtn.innerText = "جاري الفحص...";
-        outputElement.innerHTML = "<p>جاري الاتصال بالسيرفر...</p>";
+        outputElement.innerHTML = "<p dir="rtl">جاري الاتصال بالسيرفر...</p>";
 
         try {
             const response = await fetch("https://interactivemathdz.pythonanywhere.com/inspect", {
@@ -27,10 +27,10 @@ async function inspectCode() {
 
             // معالجة الرد حسب الهيكل الموديلر الجديد
             if (data.raw_error) {
-                outputElement.innerHTML = `<p class='text-danger'>خطأ في الخادم: ${data.raw_error}</p>`;
+                outputElement.innerHTML = `<p class='text-danger' dir="rtl">خطأ في الخادم: ${data.raw_error}</p>`;
             } else if (data.is_valid) {
                 outputElement.innerHTML = `
-                    <div class="report-box">
+                    <div class="report-box" dir="rtl">
                         <h3>نتائج الفحص (${data.tool})</h3>
                         <p style="color: #4ade80;">✔ الكود سليم تماماً وخالٍ من الأخطاء!</p>
                     </div>
