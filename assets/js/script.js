@@ -1,6 +1,6 @@
 async function inspectCode() {
         const codeInput = document.getElementById("codeInput").value;
-        const language = document.getElementById("languageSelect").value;
+        const tool = document.getElementById("toolSelect").value;
         const outputElement = document.getElementById("reportOutput");
         const inspectBtn = document.getElementById("inspectBtn");
 
@@ -19,7 +19,7 @@ async function inspectCode() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ 
                     code: codeInput,
-                    language: language 
+                    tool: tool 
                 })
             });
 
