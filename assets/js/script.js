@@ -57,7 +57,7 @@ async function inspectCode() {
                 outputElement.innerHTML = issuesHTML;
             }
         } catch (error) {
-            outputElement.innerHTML = "<p class='text-danger'>تعذر الاتصال بالسيرفر. تأكد من عمل PythonAnywhere.</p>";
+            outputElement.innerHTML = "<p class='text-danger'>تعذر الاتصال بالسيرفر. تأكد من عمل PythonAnywhere.${error}</p>";
         } finally {
             inspectBtn.disabled = false;
             inspectBtn.innerText = "فحص الكود";
