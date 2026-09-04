@@ -54,7 +54,7 @@ async function inspectCode() {
                 });
 
                 issuesHTML += `</ul></div>`;
-                outputElement.innerHTML = issuesHTML;
+                outputElement.textContent = issuesHTML;
             }
         } catch (error) {
             outputElement.innerHTML = `<p class='text-danger'>تعذر الاتصال بالسيرفر. تأكد من عمل PythonAnywhere.(${error.message})</p>`;
