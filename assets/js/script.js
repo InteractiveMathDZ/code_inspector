@@ -54,16 +54,17 @@ async function inspectCode() {
                     liitem.appendChild(h4item)
                     h4item.textContent = `السطر ${issue.line}, العمود ${issue.column}:`;
                         
-                    const pitem = document.createElement('p');
+                    const p1item = document.createElement('p');
                     liitem.appendChild(p1item);
                     p1item.textContent = '<strong>السطر ${issue.line}، العمود ${issue.column}:</strong>';
                     
                     const p2item = document.createElement('p');
                     liitem.appendChild(p2item);
-                    p2item.innerHTML = `
-                            ${issue.message} 
-                            <span style="color: #94a3b8;" dir="ltr">(${issue.rule || issue.severity})</span>
-                         `;
+                    p2item.textContent = `${issue.message}`;
+
+                    const p3item = document.createElement('p');
+                    liitem.appendChild(p3item);
+                    p3item.innerHTML = `<span style="color: #94a3b8;" dir="ltr">(${issue.rule || issue.severity})</span>`;
                 });
                     
                 outputElement.appendChild(fragment);
