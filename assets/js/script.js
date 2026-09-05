@@ -60,10 +60,11 @@ async function inspectCode() {
                 const pitem = document.createElement('p');
                 
                 // استخدام createTextNode يضمن عرض وسوم الـ HTML كنصوص مجردة
-                const msgNode = document.createTextNode(`${issue.message} `);
-                msgNode.dir ='ltr';
-                msgNode.style.unicodeBidi = 'isolate';
-                pitem.appendChild(msgNode);
+                const msgSpan = document.createElement('span');
+                msgSpan.textContent = `${issue.message}`;
+                msgSpan.dir ='ltr';
+                msgSpan.style.unicodeBidi = 'isolate';
+                pitem.appendChild(msgSpan);
                 
                 const ruleSpan = document.createElement('span');
                 ruleSpan.style.color = '#94a3b8';
