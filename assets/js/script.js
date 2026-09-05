@@ -40,7 +40,7 @@ async function inspectCode() {
         } else {
             const fragment = document.createDocumentFragment();
                 
-            const h3item = document.createElement('h3');
+            const h3item = document.createElement('h4');
             h3item.dir = 'rtl';
             h3item.textContent = `تم اكتشاف ${data.total_issues} من الأخطاء/التنبيهات (${data.tool}):`;
             fragment.appendChild(h3item);
@@ -61,6 +61,8 @@ async function inspectCode() {
                 
                 // استخدام createTextNode يضمن عرض وسوم الـ HTML كنصوص مجردة
                 const msgNode = document.createTextNode(`${issue.message} `);
+                msgNode.dir ='ltr';
+                msgSpan.style.unicodeBidi = 'isolate';
                 pitem.appendChild(msgNode);
                 
                 const ruleSpan = document.createElement('span');
