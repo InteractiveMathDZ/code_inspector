@@ -36,25 +36,37 @@ async function inspectCode() {
                     </div>
                 `;
             } else {
-                let issuesHTML = `
-                    <div class="report-box">
-                        <h3 class="text-danger">تم اكتشاف ${data.total_issues} من الأخطاء/التنبيهات (${data.tool}):</h3>
-                        <ul>
-                `;
+                const fragment = document.createDocumentFragment();
+                    
+                const h3item = document.createElement('h3');
+                h3item.textContent = `تم اكتشاف ${data.total_issues} من الأخطاء/التنبيهات (${data.tool}):`;
+                fragment.appendChild(h3item);
+                    
+                const ulitem = document.createElement('ul');
+                fragment.appendChild(ulitem);
                 
                 data.issues.forEach(issue => {
-                    issuesHTML += `
-                        <li style="margin-bottom: 8px;">
-                            <strong>السطر ${issue.line}، العمود ${issue.column}:</strong>
-                            <p dir="ltr">
+                        
+                    const liitem = document.createElement('li');
+                    ulitem.appendChild(liitem);
+                        
+                    const h4item = document.createElement('h4');
+                    liitem.appendChild(h4item)
+                    h4item.textContent = `السطر ${issue.line}, العمود ${issue.column}:`;
+                        
+                    const pitem = document.createElement('p');
+                    liitem.appendChild(p1item);
+                    p1item.textContent = '<strong>السطر ${issue.line}، العمود ${issue.column}:</strong>';
+                    
+                    const p2item = document.createElement('p');
+                    liitem.appendChild(p2item);
+                    p2item.innerHTML = `
                             ${issue.message} 
-                            <span style="color: #94a3b8;" dir="ltr">(${issue.rule || issue.severity})</span></p>
-                        </li>
-                    `;
+                            <span style="color: #94a3b8;" dir="ltr">(${issue.rule || issue.severity})</span>
+                         `;
                 });
-
-                issuesHTML += `</ul></div>`;
-                outputElement.textContent = issuesHTML;
+                    
+                outputElement.appendChild(fragment);
             }
         } catch (error) {
             outputElement.innerHTML = `<p class='text-danger'>تعذر الاتصال بالسيرفر. تأكد من عمل PythonAnywhere.(${error.message})</p>`;
