@@ -3,10 +3,11 @@ layout: default
 title: "فاحص كود | Code Inspector."
 ---
 <h1>Code Inspector</h1>
+
 <div class="input-section"> 
-    <!-- قائمة اختيار اللغة -->
+    <!-- قائمة اختيار اللغة بنفس مفاتيح الباك إند الحالية -->
     <label for="toolSelect">اختر وسيلة الفحص.</label>
-    <select id="toolSelect" class="selectstyle" dir="ltr">
+    <select id="toolSelect" dir="ltr">
         <option value="python AST">Python AST</option>
         <option value="eslint">ESLint</option>
         <option value="Bandit">Bandit</option> 
@@ -16,11 +17,13 @@ title: "فاحص كود | Code Inspector."
         <option value="HTMLValidate">HTMLValidate</option>
         <option value="Stylelint">Stylelint</option>
     </select>
+
     <label for="codeInput">أدخل الكود البرمجي المراد فحصه.</label>
     <textarea id="codeInput" dir="ltr" placeholder="ألصق الكود الخاص بك هنا للتحليل..."></textarea>
-    <button id="inspectBtn" onclick="inspectCode()">فحص الكود</button>
+    
+    <button id="inspectBtn" type="button">فحص الكود</button>
 </div>
-<div id="reportOutput"></div>
+
 <!-- حاوية النتائج الرئيسية -->
 <div id="results"></div>
 
@@ -43,4 +46,3 @@ title: "فاحص كود | Code Inspector."
     <small class="issue-rule" dir="ltr"></small>
   </div>
 </template>
-
