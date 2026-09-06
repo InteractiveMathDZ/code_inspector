@@ -59,10 +59,10 @@ async function inspectCode() {
                 
                 const pitem = document.createElement('p');
                 let cleanMessage = issue.message;
-                if (issue.rule_id && cleanMessage.endsWith(`(${issue.rule_id})`)) {
-                    cleanMessage = cleanMessage.slice(0, -`(${issue.rule_id})`.length).trim();
+                if (issue.rule && cleanMessage.endsWith(`(${issue.rule})`)) {
+                    cleanMessage = cleanMessage.slice(0, -`(${issue.rule})`.length).trim();
                 }
-                const msgSpan = document.createElement('span');
+                const msgSpan = document.createElement('p');
                 msgSpan.textContent = `${cleanMessage}`;
                 msgSpan.dir ='ltr';
                 msgSpan.style.unicodeBidi = 'isolate';
@@ -70,7 +70,7 @@ async function inspectCode() {
                 msmsgSpn.style.margin = '4px 0';
                 pitem.appendChild(msgSpan);
                 
-                const ruleSpan = document.createElement('span');
+                const ruleSpan = document.createElement('p');
                 ruleSpan.style.color = '#94a3b8';
                 ruleSpan.dir = 'ltr';
                 ruleSpan.style.unicodeBidi = 'isolate';
