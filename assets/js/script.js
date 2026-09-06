@@ -1,91 +1,101 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const inspectBtn = document.getElementById("inspectBtn");
+    if (inspectBtn) {
+        inspectBtn.addEventListener("click", inspectCode);
+    }
+});
+
 async function inspectCode() {
     const codeInput = document.getElementById("codeInput").value;
     const tool = document.getElementById("toolSelect").value;
-    const outputElement = document.getElementById("reportOutput");
+    const resultsContainer = document.getElementById("results");
     const inspectBtn = document.getElementById("inspectBtn");
 
+    const alertTpl = document.getElementById("alert-template");
+    const issueTpl = document.getElementById("issue-template");
+
+    // دالة مساعدة لزرع الرسائل العامة باستغلال القوالب
+    const showAlert = (title, message, type = "error") => {
+        const clone = alertTpl.content.cloneNode(true);
+        const alertBox = clone.querySelector(".alert-box");
+        alertBox.classList.add(type === "success" ? "success" : "error");
+        clone.querySelector(".alert-title").textContent = title;
+        clone.querySelector(".alert-message").textContent = message;
+        resultsContainer.appendChild(clone);
+    };
+
     if (!codeInput.trim()) {
-        outputElement.innerHTML = "<p class='text-danger' dir='rtl'>يرجى إدخال شفرة برمجية أولاً.</p>";
+        resultsContainer.innerHTML = "";
+        showAlert("⚠️ تنبيه:", "يرجى إدخال شفرة برمجية أولاً.");
         return;
     }
 
     inspectBtn.disabled = true;
     inspectBtn.innerText = "جاري الفحص...";
-    outputElement.innerHTML = "<p dir='rtl'>جاري الاتصال بالخادم...</p>";
+    resultsContainer.innerHTML = "";
 
     try {
         const response = await fetch("https://interactivemathdz.pythonanywhere.com/inspect", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-                code: codeInput,
-                tool: tool 
-            })
+            body: JSON.stringify({ code: codeInput, tool: tool })
         });
 
         const data = await response.json();
-
-        // تفريغ عنصر المخرجات قبل إدراج النتائج الجديدة
-        outputElement.innerHTML = "";
+        resultsContainer.innerHTML = "";
 
         if (data.raw_error) {
-            outputElement.innerHTML = `<p class='text-danger' dir='rtl'>خطأ في الخادم: ${data.raw_error}</p>`;
+            showAlert("⚠️ خطأ في الخادم:", data.raw_error, "error");
         } else if (data.is_valid) {
-            outputElement.innerHTML = `
-                <div class="report-box" dir="rtl">
-                    <h3>نتائج الفحص (${data.tool})</h3>
-                    <p style="color: #4ade80;">✔ الكود سليم تماماً وخالٍ من الأخطاء!</p>
-                </div>
-            `;
+            showAlert(`✔ نتائج الفحص (${data.tool})`, "الكود سليم تماماً وخالٍ من الأخطاء!", "success");
         } else {
-            const fragment = document.createDocumentFragment();
-                
-            const h3item = document.createElement('h4');
-            h3item.dir = 'rtl';
-            h3item.textContent = `تم اكتشاف ${data.total_issues} من الأخطاء/التنبيهات (${data.tool}):`;
-            fragment.appendChild(h3item);
-                
-            const ulitem = document.createElement('ul');
-            ulitem.dir = 'rtl';
-            fragment.appendChild(ulitem);
+            const issues = data.issues || [];
             
-            data.issues.forEach(issue => {
-                const liitem = document.createElement('li');
-                ulitem.appendChild(liitem);
-                    
-                const h4item = document.createElement('h4');
-                h4item.textContent = `السطر ${issue.line}، العمود ${issue.column}:`;
-                liitem.appendChild(h4item);
-                
-                const pitem = document.createElement('p');
-                let cleanMessage = issue.message;
-                if (issue.rule && cleanMessage.endsWith(`(${issue.rule})`)) {
-                    cleanMessage = cleanMessage.slice(0, -`(${issue.rule})`.length).trim();
-                }
-                const msgSpan = document.createElement('p');
-                msgSpan.textContent = `${cleanMessage}`;
-                msgSpan.dir ='ltr';
-                msgSpan.style.unicodeBidi = 'isolate';
-                msgSpan.style.textAlign = 'left';
-                msgSpan.style.margin = '4px 0';
-                pitem.appendChild(msgSpan);
-                
-                const ruleSpan = document.createElement('p');
-                ruleSpan.style.color = '#94a3b8';
-                ruleSpan.dir = 'ltr';
-                ruleSpan.style.unicodeBidi = 'isolate';
-                ruleSpan.style.textAlign = 'left';
-                ruleSpan.style.margin = '4px 0';
-                ruleSpan.textContent = `(${issue.rule || issue.severity})`;
-                pitem.appendChild(ruleSpan);
+            // عنوان ملخص النتائج
+            const header = document.createElement("p");
+            header.style.fontWeight = "bold";
+            header.style.marginBottom = "12px";
+            header.textContent = `تم اكتشاف ${data.total_issues || issues.length} من الأخطاء/التنبيهات (${data.tool}):`;
+            resultsContainer.appendChild(header);
 
-                liitem.appendChild(pitem);
+            // استنساخ بطاقة لكل خطأ
+            issues.forEach(issue => {
+                const clone = issueTpl.content.cloneNode(true);
+                const itemNode = clone.querySelector(".issue-item");
+                const isError = issue.severity === "error";
+
+                if (issue.severity) itemNode.classList.add(issue.severity);
+
+                // الشارة (Error / Warning)
+                const badgeNode = clone.querySelector(".issue-badge");
+                badgeNode.classList.add(isError ? "badge-error" : "badge-warning");
+                badgeNode.textContent = isError ? "خطأ" : "تنبيه";
+
+                // الموقع (السطر والعمود)
+                clone.querySelector(".issue-location").textContent = `السطر ${issue.line}، العمود ${issue.column}`;
+
+                // تنظيف ونص الرسالة
+                let cleanMessage = issue.message;
+                const ruleName = issue.rule || issue.rule_id;
+                if (ruleName && cleanMessage.endsWith(`(${ruleName})`)) {
+                    cleanMessage = cleanMessage.slice(0, -`(${ruleName})`.length).trim();
+                }
+                clone.querySelector(".issue-message").textContent = cleanMessage;
+
+                // القاعدة (Rule)
+                const ruleElement = clone.querySelector(".issue-rule");
+                if (ruleName) {
+                    ruleElement.textContent = `rule: ${ruleName}`;
+                } else {
+                    ruleElement.remove();
+                }
+
+                resultsContainer.appendChild(clone);
             });
-                
-            outputElement.appendChild(fragment);
         }
     } catch (error) {
-        outputElement.innerHTML = `<p class='text-danger' dir='rtl'>تعذر الاتصال بالسيرفر. تأكد من عمل PythonAnywhere. (${error.message})</p>`;
+        resultsContainer.innerHTML = "";
+        showAlert("❌ تعذر الاتصال بالسيرفر", `تأكد من عمل PythonAnywhere. (${error.message})`, "error");
     } finally {
         inspectBtn.disabled = false;
         inspectBtn.innerText = "فحص الكود";
