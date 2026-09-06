@@ -21,3 +21,26 @@ title: "فاحص كود | Code Inspector."
     <button id="inspectBtn" onclick="inspectCode()">فحص الكود</button>
 </div>
 <div id="reportOutput"></div>
+<!-- حاوية النتائج الرئيسية -->
+<div id="results"></div>
+
+<!-- قالب التنبيهات والرسائل العامة -->
+<template id="alert-template">
+  <div class="alert-box">
+    <strong class="alert-title"></strong>
+    <p class="alert-message"></p>
+  </div>
+</template>
+
+<!-- قالب بطاقة الخطأ/التنبيه المنفرد -->
+<template id="issue-template">
+  <div class="issue-item">
+    <div class="issue-header">
+      <span class="issue-location"></span>
+      <span class="issue-badge"></span>
+    </div>
+    <p class="issue-message" dir="ltr"></p>
+    <small class="issue-rule" dir="ltr"></small>
+  </div>
+</template>
+
