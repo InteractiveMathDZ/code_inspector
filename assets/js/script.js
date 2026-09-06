@@ -58,17 +58,24 @@ async function inspectCode() {
                 liitem.appendChild(h4item);
                 
                 const pitem = document.createElement('p');
-                
-                // استخدام createTextNode يضمن عرض وسوم الـ HTML كنصوص مجردة
+                let cleanMessage = issue.message;
+                if (issue.rule_id && cleanMessage.endsWith(`(${issue.rule_id})`)) {
+                    cleanMessage = cleanMessage.slice(0, -`(${issue.rule_id})`.length).trim();
+                }
                 const msgSpan = document.createElement('span');
-                msgSpan.textContent = `${issue.message}`;
+                msgSpan.textContent = `${cleanMessage}`;
                 msgSpan.dir ='ltr';
                 msgSpan.style.unicodeBidi = 'isolate';
+                msgSpan.style.text-align = 'left';
+                msmsgSpn.style.margin = '4px 0';
                 pitem.appendChild(msgSpan);
                 
                 const ruleSpan = document.createElement('span');
                 ruleSpan.style.color = '#94a3b8';
                 ruleSpan.dir = 'ltr';
+                ruleSpan.style.unicodeBidi = 'isolate';
+                ruleSpan.style.text-align = 'left';
+                ruleSpan.style.margin = '4px 0';
                 ruleSpan.textContent = `(${issue.rule || issue.severity})`;
                 pitem.appendChild(ruleSpan);
 
