@@ -66,7 +66,7 @@ async function inspectCode() {
                 msgSpan.textContent = `${cleanMessage}`;
                 msgSpan.dir ='ltr';
                 msgSpan.style.unicodeBidi = 'isolate';
-                msgSpan.style.text-align = 'left';
+                msgSpan.style.textAlign = 'left';
                 msmsgSpn.style.margin = '4px 0';
                 pitem.appendChild(msgSpan);
                 
@@ -74,7 +74,7 @@ async function inspectCode() {
                 ruleSpan.style.color = '#94a3b8';
                 ruleSpan.dir = 'ltr';
                 ruleSpan.style.unicodeBidi = 'isolate';
-                ruleSpan.style.text-align = 'left';
+                ruleSpan.style.textAlign = 'left';
                 ruleSpan.style.margin = '4px 0';
                 ruleSpan.textContent = `(${issue.rule || issue.severity})`;
                 pitem.appendChild(ruleSpan);
