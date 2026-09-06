@@ -67,7 +67,7 @@ async function inspectCode() {
                 msgSpan.dir ='ltr';
                 msgSpan.style.unicodeBidi = 'isolate';
                 msgSpan.style.textAlign = 'left';
-                msmsgSpn.style.margin = '4px 0';
+                msgSpan.style.margin = '4px 0';
                 pitem.appendChild(msgSpan);
                 
                 const ruleSpan = document.createElement('p');
