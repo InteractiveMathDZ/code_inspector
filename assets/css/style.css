@@ -171,6 +171,8 @@ button:hover {
   padding: 12px;
   margin-bottom: 10px;
   text-align: right;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .issue-item.error { border-right-color: var(--error-color); }
@@ -204,6 +206,8 @@ button:hover {
   margin: 8px 0 4px 0; 
   color: var(--issue-text); 
   text-align: left; 
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .issue-rule { 
