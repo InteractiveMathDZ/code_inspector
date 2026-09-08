@@ -9,12 +9,13 @@
     {%- include head_links.html -%}
   </head>
   <body>
+    {%- include sidebar.html -%}
     <div
       class="container my-2 py-2 main-content-wrapper"
     >
       {{ content }}
     </div>
-    {%- include sidebar.html -%} {%- include footer.html -%} {%- include scripts.html
+    {%- include footer.html -%} {%- include scripts.html
     -%}
   </body>
 </html>
