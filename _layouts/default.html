@@ -15,6 +15,28 @@
       <h1>Code Inspector</h1>
       {%- include sidebar.html -%}
       {{ content }}
+      <!-- حاوية النتائج الرئيسية -->
+      <div id="results"></div>
+
+      <!-- قالب التنبيهات والرسائل العامة -->
+      <template id="alert-template">
+          <div class="alert-box">
+              <strong class="alert-title"></strong>
+              <p class="alert-message"></p>
+          </div>
+      </template>
+
+      <!-- قالب بطاقة الخطأ/التنبيه المنفرد -->
+      <template id="issue-template">
+          <div class="issue-item">
+              <div class="issue-header">
+                  <span class="issue-location"></span>
+                  <span class="issue-badge"></span>
+              </div>
+              <p class="issue-message" dir="ltr"></p>
+              <small class="issue-rule" dir="ltr"></small>
+           </div>
+        </template>
     </div>
     {%- include footer.html -%} {%- include scripts.html
     -%}
