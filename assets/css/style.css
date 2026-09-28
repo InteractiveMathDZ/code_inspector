@@ -347,3 +347,8 @@ footer {
   display: block;
 }
 
+.actions-group {
+  display: flex;
+  justify-content: space-between;
+}
+
