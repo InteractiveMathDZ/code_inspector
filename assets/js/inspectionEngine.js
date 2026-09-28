@@ -113,8 +113,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function formatCode() {
-    const codeInput = document.getElementById("codeInput");
-    const toolSelect = document.getElementById("toolSelect");
+    const codeInput = document.getElementById("codeInput").value;
+    const toolSelect = document.getElementById("toolSelect"). value;
     const formatBtn = document.getElementById("formatBtn");
     const resultsContainer = document.getElementById("results");
 
