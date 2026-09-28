@@ -101,3 +101,68 @@ async function inspectCode() {
         inspectBtn.innerText = "فحص الكود";
     }
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    // ... ربط زر الفحص ...
+
+    const formatBtn = document.getElementById("formatBtn");
+    if (formatBtn) {
+        formatBtn.addEventListener("click", formatCode);
+    }
+});
+
+async function formatCode() {
+    const codeInput = document.getElementById("codeInput");
+    const toolSelect = document.getElementById("toolSelect");
+    const formatBtn = document.getElementById("formatBtn");
+    const resultsContainer = document.getElementById("results");
+
+    const code = codeInput.value;
+    if (!code.trim()) {
+        alert("يرجى إدخال شفرة برمجية أولاً لتنسيقها.");
+        return;
+    }
+
+    // استنتاج اللغة من الأداة المحددة (مثلاً ESLint -> js, PyCodeStyle -> python)
+    const toolToLang = {
+        'ESLint': 'js',
+        'HTMLValidate': 'html',
+        'Stylelint': 'css',
+        'PyCodeStyle': 'python',
+        'PyFlakes': 'python',
+        'Bandit': 'python',
+        'Python AST': 'python'
+    };
+
+    const selectedTool = toolSelect.value;
+    const language = toolToLang[selectedTool] || 'js';
+
+    formatBtn.disabled = true;
+    formatBtn.innerText = "جاري التنسيق...";
+
+    try {
+        const response = await fetch("https://interactivemathdz.pythonanywhere.com/format", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                code: code,
+                language: language
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.status === "success" && data.formatted_code) {
+            // تحديث مربع النص مباشرة بالكود المنسق الأنيق
+            codeInput.value = data.formatted_code;
+        } else {
+            alert(`تعذر التنسيق: ${data.message || "خطأ غير معروف"}`);
+        }
+    } catch (error) {
+        alert(`خطأ في الاتصال بالسيرفر: ${error.message}`);
+    } finally {
+        formatBtn.disabled = false;
+        formatBtn.innerText = "✨ تنسيق الكود";
+    }
+}
