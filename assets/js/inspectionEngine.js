@@ -2,9 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. ربط زر الفحص المباشر (الصفحة الرئيسية)
     const inspectBtn = document.getElementById("inspectBtn");
     if (inspectBtn) {
-        inspectBtn.addEventListener("click", () => {
-            const code = document.getElementById("codeInput").value;
-            const tool = document.getElementById("toolSelect").value;
+        inspectBtn.addEventListener("click", () => { const code = document.getElementById("codeInput").value; const tool = document.getElementById("toolSelect").value;
             inspectCode(tool, code);
         });
     }
