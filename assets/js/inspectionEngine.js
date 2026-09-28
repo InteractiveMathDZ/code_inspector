@@ -190,7 +190,7 @@ function renderResults(container, data) {
 
     const toolName = data.tools_run ? data.tools_run.join(" + ") : (data.tool || "الفاحص");
 
-    if (data.is_valid) {
+    if (issues.length === 0 ) {
         showAlert(container, `✔ نتائج الفحص (${toolName})`, "الكود سليم تماماً وخالٍ من الأخطاء!", "success");
         return;
     }
