@@ -178,7 +178,7 @@ function showAlert(container, title, message, type = "error") {
     container.appendChild(clone);
 }
 
-// رسم بطاقات النتائج والأخطاء التراكمية
+// رسم بطاقات النتائج والأخطاء والتنبيهات
 function renderResults(container, data) {
     container.innerHTML = "";
     const issueTpl = document.getElementById("issue-template");
@@ -189,22 +189,24 @@ function renderResults(container, data) {
     }
 
     const toolName = data.tools_run ? data.tools_run.join(" + ") : (data.tool || "الفاحص");
+    
+    // 💡 تعريف المتغير مرة واحدة فقط في البداية
+    const issues = data.issues || [];
 
-    if (issues.length === 0 ) {
-        showAlert(container, `✔ نتائج الفحص (${toolName})`, "الكود سليم تماماً وخالٍ من الأخطاء!", "success");
+    // إذا كانت القائمة فارغة تماماً (لا أخطاء ولا تنبيهات)
+    if (issues.length === 0) {
+        showAlert(container, `✔ نتائج الفحص (${toolName})`, "الكود سليم تماماً وخالٍ من الأخطاء والتنبيهات!", "success");
         return;
     }
 
-    const issues = data.issues || [];
-
-    // رأس الملخص
+    // رأس ملخص النتائج
     const header = document.createElement("p");
     header.style.fontWeight = "bold";
     header.style.marginBottom = "12px";
     header.textContent = `تم اكتشاف ${data.total_issues || issues.length} من الأخطاء/التنبيهات (${toolName}):`;
     container.appendChild(header);
 
-    // بناء قائمة البطاقات
+    // بناء بطاقات الملاحظات
     issues.forEach(issue => {
         const clone = issueTpl.content.cloneNode(true);
         const itemNode = clone.querySelector(".issue-item");
@@ -212,12 +214,12 @@ function renderResults(container, data) {
 
         if (issue.severity) itemNode.classList.add(issue.severity);
 
-        // الشارة
+        // الشارة (خطأ / تنبيه)
         const badgeNode = clone.querySelector(".issue-badge");
         badgeNode.classList.add(isError ? "badge-error" : "badge-warning");
         badgeNode.textContent = isError ? "خطأ" : "تنبيه";
 
-        // الموقع + اسم الأداة إن وجد (في الفحص التراكمي)
+        // الموقع واسم الأداة
         const toolBadge = issue.tool ? ` [${issue.tool}]` : "";
         const line = issue.line || "?";
         const column = issue.column || "?";
@@ -242,3 +244,4 @@ function renderResults(container, data) {
         container.appendChild(clone);
     });
 }
+
