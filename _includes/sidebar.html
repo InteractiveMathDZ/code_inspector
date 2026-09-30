@@ -1,21 +1,17 @@
-<!-- زر فتح القائمة الجانبية -->
-<button id="menuToggleBtn" class="menu-btn" aria-label="القائمة الجانبية">
-  ☰ مزيد من الخدمات
+<!-- Sidebar.html -->
+<button id="menuToggleBtn" class="menu-btn" aria-label="Services Menu">
+  ☰ Services Menu
 </button>
 
-<!-- القائمة الجانبية المنسدلة -->
 <aside id="sideMenu" class="side-menu">
   <div class="menu-header">
-    <h3>قائمة الخدمات</h3>
+    <h3>Services Menu</h3>
     <button id="closeMenuBtn" class="close-btn">&times;</button>
   </div>
   <nav class="menu-nav">
-    <a href="{{ '/index.html | relative_url }}">⚡ فحص كود مباشر</a>
-    <a href="{{ '/url-inspector.html' | relative_url }}">🔗 فحص كود من رابط</a>
-  <!--  <a href="{{ '/repo-inspector' | relative_url }}">📁 فحص مشروع/مستودع</a>
-    -->
+    <a href="/index.html">⚡ Direct Code Inspector</a>
+    <a href="/url-inspector.html">🔗 URL Code Inspector</a>
   </nav>
 </aside>
 
-<!-- خلفية مظلمة لإغلاق القائمة عند النقر خارجها -->
 <div id="menuOverlay" class="menu-overlay"></div>
