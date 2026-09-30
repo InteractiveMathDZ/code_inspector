@@ -92,9 +92,58 @@ h1 {
 /* ==========================================================================
    3. Input section. 
    ========================================================================== */
+.editor-wrapper {
+    display: flex;
+    width: 100%;
+    background-color: #0d1117; /* خلفية داكنة متناسقة */
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    
+    /* توحيد نوع وحجم الخط والارتفاع بشكل صارم لضمان محاذاة الأسطر */
+    font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.editor-wrapper {
+    display: flex;
+    width: 100%;
+    background-color: #0d1117; /* خلفية داكنة متناسقة */
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    
+    /* توحيد نوع وحجم الخط والارتفاع بشكل صارم لضمان محاذاة الأسطر */
+    font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* عمود أرقام الأسطر */
+.line-numbers {
+    min-width: 45px;
+    padding: 12px 8px;
+    text-align: right;
+    color: #484f58;
+    background-color: #161b22; /* تظليل أغمق قليلاً من خلفية الكود */
+    border-right: 1px solid #30363d;
+    user-select: none; /* منع تحديد الأرقام أثناء نسخ الكود */
+    pointer-events: none;
+    white-space: pre;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    box-sizing: border-box;
+}
+
 .input-section {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding: 0;
   gap: 15px; /* Relying entirely on gaps to prevent margin conflicts */
 }
 
