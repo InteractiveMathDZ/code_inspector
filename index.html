@@ -18,9 +18,11 @@ title: "Direct Code Inspector | Code Inspector"
         <option value="Stylelint">Stylelint</option>
     </select>
 
-    <label for="codeInput">Enter Source Code</label>
-    <textarea id="codeInput" placeholder="Paste your source code here for analysis..."></textarea>
-    
+    <div class="editor-wrapper">
+        <label for="codeInput">Enter Source Code</label>
+        <div id="lineNumbers" class="line-numbers">1</div>
+        <textarea id="codeInput" placeholder="Paste your source code here for analysis..." spellcheck="false"></textarea>
+    </div>
     <div class="actions-group">
         <button id="inspectBtn" type="button">Inspect Code</button>
         <button id="formatBtn" type="button">Format Code</button>
