@@ -6,12 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openMenu() {
     sideMenu.classList.add("open");
-    menuOverlay.classList.add("active");
+    //menuOverlay.classList.add("active");
   }
 
   function closeMenu() {
     sideMenu.classList.remove("open");
-    menuOverlay.classList.remove("active");
+   // menuOverlay.classList.remove("active");
   }
 
   if (menuToggleBtn) menuToggleBtn.addEventListener("click", openMenu);
