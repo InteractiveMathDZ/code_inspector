@@ -42,30 +42,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 4.
+    // 4. Synchronized Line Numbers & Editor Logic
     const codeInput = document.getElementById("codeInput");
     const lineNumbers = document.getElementById("lineNumbers");
 
-    if (!codeInput || !lineNumbers) return;
+    if (codeInput && lineNumbers) {
+        function updateLineNumbers() {
+            const lines = codeInput.value.split("\n").length;
+            lineNumbers.textContent = Array.from({ length: lines }, (_, i) => i + 1).join("\n");
+        }
 
-    // تحديث أرقام الأسطر في الوقت الفعلي
-    function updateLineNumbers() {
-        const lines = codeInput.value.split("\n").length;
-        const numbers = Array.from({ length: lines }, (_, i) => i + 1).join("\n");
-        lineNumbers.textContent = numbers;
+        function syncScroll() {
+            lineNumbers.scrollTop = codeInput.scrollTop;
+        }
+
+        codeInput.addEventListener("input", updateLineNumbers);
+        codeInput.addEventListener("scroll", syncScroll);
+
+        // Initial setup
+        updateLineNumbers();
     }
-
-    // مزامنة التمرير الرأسي بين الكود وأرقام الأسطر
-    function syncScroll() {
-        lineNumbers.scrollTop = codeInput.scrollTop;
-    }
-
-    // الأحداث: التحديث عند الكتابة والتلصيق، والمزامنة عند التمرير
-    codeInput.addEventListener("input", updateLineNumbers);
-    codeInput.addEventListener("scroll", syncScroll);
-
-    // التشغيل المبدئي عند تحميل الصفحة
-    updateLineNumbers();
 });
 
 /* ==========================================
@@ -173,6 +169,8 @@ async function formatCode(language, codeInputEl) {
 
         if (data.status === "success" && data.formatted_code) {
             codeInputEl.value = data.formatted_code;
+            // Dispatch input event to recalculate line numbers after formatting
+            codeInputEl.dispatchEvent(new Event('input'));
         } else {
             showAlert(resultsContainer, "❌ Formatting Failed:", data.message || "Unknown error occurred.", "error");
         }
@@ -190,7 +188,6 @@ async function formatCode(language, codeInputEl) {
    UI Rendering Helpers
    ========================================== */
 
-// Render alert messages (success/error)
 function showAlert(container, title, message, type = "error") {
     const alertTpl = document.getElementById("alert-template");
     if (!alertTpl || !container) return;
@@ -203,7 +200,6 @@ function showAlert(container, title, message, type = "error") {
     container.appendChild(clone);
 }
 
-// Render inspection result cards
 function renderResults(container, data) {
     container.innerHTML = "";
     const issueTpl = document.getElementById("issue-template");
@@ -216,20 +212,17 @@ function renderResults(container, data) {
     const toolName = data.tools_run ? data.tools_run.join(" + ") : (data.tool || "Inspector");
     const issues = data.issues || [];
 
-    // If clean (no errors or warnings)
     if (issues.length === 0) {
         showAlert(container, `✔ Inspection Results (${toolName})`, "Code is clean! No errors or warnings found.", "success");
         return;
     }
 
-    // Summary header
     const header = document.createElement("p");
     header.style.fontWeight = "bold";
     header.style.marginBottom = "12px";
     header.textContent = `Found ${data.total_issues || issues.length} issues/warnings (${toolName}):`;
     container.appendChild(header);
 
-    // Render issue items
     issues.forEach(issue => {
         const clone = issueTpl.content.cloneNode(true);
         const itemNode = clone.querySelector(".issue-item");
@@ -237,18 +230,15 @@ function renderResults(container, data) {
 
         if (issue.severity) itemNode.classList.add(issue.severity);
 
-        // Badge (Error / Warning)
         const badgeNode = clone.querySelector(".issue-badge");
         badgeNode.classList.add(isError ? "badge-error" : "badge-warning");
         badgeNode.textContent = isError ? "Error" : "Warning";
 
-        // Location and tool badge
         const toolBadge = issue.tool ? ` [${issue.tool}]` : "";
         const line = issue.line || "?";
         const column = issue.column || "?";
         clone.querySelector(".issue-location").textContent = `Line ${line}, Column ${column}${toolBadge}`;
 
-        // Issue message
         let cleanMessage = issue.message || "";
         const ruleName = issue.rule || issue.rule_id;
         if (ruleName && cleanMessage.endsWith(`(${ruleName})`)) {
@@ -256,7 +246,6 @@ function renderResults(container, data) {
         }
         clone.querySelector(".issue-message").textContent = cleanMessage;
 
-        // Rule ID
         const ruleElement = clone.querySelector(".issue-rule");
         if (ruleName) {
             ruleElement.textContent = `rule: ${ruleName}`;
