@@ -54,13 +54,13 @@ async function inspectCode(tool, code) {
 
     if (!code.trim()) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "⚠️ تنبيه:", "يرجى إدخال شفرة برمجية أولاً.");
+        showAlert(resultsContainer, "⚠️ Warning:", "Enter your code first.");
         return;
     }
 
     if (inspectBtn) {
         inspectBtn.disabled = true;
-        inspectBtn.innerText = "جاري الفحص...";
+        inspectBtn.innerText = "In progress...";
     }
     resultsContainer.innerHTML = "";
 
@@ -75,11 +75,11 @@ async function inspectCode(tool, code) {
         renderResults(resultsContainer, data);
     } catch (error) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "❌ تعذر الاتصال بالسيرفر", `تأكد من عمل PythonAnywhere. (${error.message})`, "error");
+        showAlert(resultsContainer, "❌ Unable to connect to the server.", `Please ensure that PythonAnywhere is running. (${error.message})`, "error");
     } finally {
         if (inspectBtn) {
             inspectBtn.disabled = false;
-            inspectBtn.innerText = "فحص الكود";
+            inspectBtn.innerText = "Inspect";
         }
     }
 }
@@ -91,13 +91,13 @@ async function inspectUrlCode(rawUrl) {
 
     if (!rawUrl.trim()) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "⚠️ تنبيه:", "يرجى إدخال رابط الملف المباشر أولاً.");
+        showAlert(resultsContainer, "⚠️ Warning:", "Enter raw url first.");
         return;
     }
 
     if (inspectUrlBtn) {
         inspectUrlBtn.disabled = true;
-        inspectUrlBtn.innerText = "جاري جلب وفحص الكود...";
+        inspectUrlBtn.innerText = "downloading an insecting...";
     }
     resultsContainer.innerHTML = "";
 
@@ -112,7 +112,7 @@ async function inspectUrlCode(rawUrl) {
         renderResults(resultsContainer, data);
     } catch (error) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "❌ تعذر الاتصال بالسيرفر", `تأكد من صحة الرابط وعمل الخادم. (${error.message})`, "error");
+        showAlert(resultsContainer, "❌ Unable to connect to server", `Verify the link and server is working. (${error.message})`, "error");
     } finally {
         if (inspectUrlBtn) {
             inspectUrlBtn.disabled = false;
