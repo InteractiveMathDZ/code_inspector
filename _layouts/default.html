@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
   <head>
     {%- include analytics.html -%}
     <meta charset="UTF-8" >
@@ -15,10 +15,10 @@
       <h1>Code Inspector</h1>
       {%- include sidebar.html -%}
       {{ content }}
-      <!-- حاوية النتائج الرئيسية -->
+      <!-- Result's container -->
       <div id="results"></div>
 
-      <!-- قالب التنبيهات والرسائل العامة -->
+      <!-- Messages and warnings template -->
       <template id="alert-template">
           <div class="alert-box">
               <strong class="alert-title"></strong>
@@ -26,7 +26,7 @@
           </div>
       </template>
 
-      <!-- قالب بطاقة الخطأ/التنبيه المنفرد -->
+      <!-- Single Error/Alert Card Template -->
       <template id="issue-template">
           <div class="issue-item">
               <div class="issue-header">
