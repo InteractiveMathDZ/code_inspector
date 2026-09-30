@@ -147,8 +147,6 @@ button:hover {
   padding: 12px 16px;
   border-radius: 8px;
   margin-top: 15px;
-  text-align: right;
-  direction: ltr;
 }
 
 .alert-box.error { 
@@ -169,7 +167,6 @@ button:hover {
   border-radius: 6px;
   padding: 12px;
   margin-bottom: 10px;
-  text-align: right;
   overflow-wrap: break-word;
   word-break: break-word;
 }
