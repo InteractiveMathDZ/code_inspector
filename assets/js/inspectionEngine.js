@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. ربط زر الفحص المباشر (الصفحة الرئيسية)
+    // 1. Direct code inspection button handler
     const inspectBtn = document.getElementById("inspectBtn");
     if (inspectBtn) {
         inspectBtn.addEventListener("click", () => {
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 2. ربط زر التنسيق المباشر (الصفحة الرئيسية)
+    // 2. Direct code formatting button handler
     const formatBtn = document.getElementById("formatBtn");
     if (formatBtn) {
         formatBtn.addEventListener("click", () => {
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 3. ربط زر الفحص من رابط (url-inspector.html)
+    // 3. URL code inspection button handler (url-inspector.html)
     const inspectUrlBtn = document.getElementById("inspectUrlBtn");
     if (inspectUrlBtn) {
         inspectUrlBtn.addEventListener("click", () => {
@@ -44,10 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ==========================================
-   دوال المنطق والاتصال بالخادم (Core Engine)
+   Core Engine & API Functions
    ========================================== */
 
-// أ) فحص الكود المباشر
+// A) Inspect direct code input
 async function inspectCode(tool, code) {
     const resultsContainer = document.getElementById("results");
     const inspectBtn = document.getElementById("inspectBtn");
@@ -60,7 +60,7 @@ async function inspectCode(tool, code) {
 
     if (inspectBtn) {
         inspectBtn.disabled = true;
-        inspectBtn.innerText = "In progress...";
+        inspectBtn.innerText = "Inspecting...";
     }
     resultsContainer.innerHTML = "";
 
@@ -75,29 +75,29 @@ async function inspectCode(tool, code) {
         renderResults(resultsContainer, data);
     } catch (error) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "❌ Unable to connect to the server.", `Please ensure that PythonAnywhere is running. (${error.message})`, "error");
+        showAlert(resultsContainer, "❌ Connection Error", `Unable to connect to server. Ensure PythonAnywhere is running. (${error.message})`, "error");
     } finally {
         if (inspectBtn) {
             inspectBtn.disabled = false;
-            inspectBtn.innerText = "Inspect";
+            inspectBtn.innerText = "Inspect Code";
         }
     }
 }
 
-// ب) فحص الكود عبر رابط (Raw URL)
+// B) Inspect code from raw URL
 async function inspectUrlCode(rawUrl) {
     const resultsContainer = document.getElementById("results");
     const inspectUrlBtn = document.getElementById("inspectUrlBtn");
 
     if (!rawUrl.trim()) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "⚠️ Warning:", "Enter raw url first.");
+        showAlert(resultsContainer, "⚠️ Warning:", "Enter raw URL first.");
         return;
     }
 
     if (inspectUrlBtn) {
         inspectUrlBtn.disabled = true;
-        inspectUrlBtn.innerText = "downloading an insecting...";
+        inspectUrlBtn.innerText = "Fetching & Inspecting...";
     }
     resultsContainer.innerHTML = "";
 
@@ -112,29 +112,29 @@ async function inspectUrlCode(rawUrl) {
         renderResults(resultsContainer, data);
     } catch (error) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "❌ Unable to connect to server", `Verify the link and server is working. (${error.message})`, "error");
+        showAlert(resultsContainer, "❌ Connection Error", `Verify the link and ensure the server is active. (${error.message})`, "error");
     } finally {
         if (inspectUrlBtn) {
             inspectUrlBtn.disabled = false;
-            inspectUrlBtn.innerText = "جلب وفحص الكود";
+            inspectUrlBtn.innerText = "Fetch & Inspect";
         }
     }
 }
 
-// ج) تنسيق الكود
+// C) Format code
 async function formatCode(language, codeInputEl) {
     const formatBtn = document.getElementById("formatBtn");
     const resultsContainer = document.getElementById("results");
     const code = codeInputEl.value;
 
     if (!code.trim()) {
-        showAlert(resultsContainer, "⚠️ تنبيه:", "يرجى إدخال شفرة برمجية أولاً لتنسيقها.");
+        showAlert(resultsContainer, "⚠️ Warning:", "Please enter code first to format.");
         return;
     }
 
     if (formatBtn) {
         formatBtn.disabled = true;
-        formatBtn.innerText = "جاري التنسيق...";
+        formatBtn.innerText = "Formatting...";
     }
 
     try {
@@ -149,23 +149,23 @@ async function formatCode(language, codeInputEl) {
         if (data.status === "success" && data.formatted_code) {
             codeInputEl.value = data.formatted_code;
         } else {
-            showAlert(resultsContainer, "❌ تعذر التنسيق:", data.message || "خطأ غير معروف", "error");
+            showAlert(resultsContainer, "❌ Formatting Failed:", data.message || "Unknown error occurred.", "error");
         }
     } catch (error) {
-        showAlert(resultsContainer, "❌ تعذر الاتصال بالسيرفر", error.message, "error");
+        showAlert(resultsContainer, "❌ Connection Error", error.message, "error");
     } finally {
         if (formatBtn) {
             formatBtn.disabled = false;
-            formatBtn.innerText = "✨ تنسيق الكود";
+            formatBtn.innerText = "✨ Format Code";
         }
     }
 }
 
 /* ==========================================
-   دوال العرض والتنسيق الظاهري (Rendering Helpers)
+   UI Rendering Helpers
    ========================================== */
 
-// عرض تنبيه عام (نجاح / خطأ)
+// Render alert messages (success/error)
 function showAlert(container, title, message, type = "error") {
     const alertTpl = document.getElementById("alert-template");
     if (!alertTpl || !container) return;
@@ -178,35 +178,33 @@ function showAlert(container, title, message, type = "error") {
     container.appendChild(clone);
 }
 
-// رسم بطاقات النتائج والأخطاء والتنبيهات
+// Render inspection result cards
 function renderResults(container, data) {
     container.innerHTML = "";
     const issueTpl = document.getElementById("issue-template");
 
     if (data.raw_error) {
-        showAlert(container, "⚠️ خطأ في الخادم:", data.raw_error, "error");
+        showAlert(container, "⚠️ Server Error:", data.raw_error, "error");
         return;
     }
 
-    const toolName = data.tools_run ? data.tools_run.join(" + ") : (data.tool || "الفاحص");
-    
-    // 💡 تعريف المتغير مرة واحدة فقط في البداية
+    const toolName = data.tools_run ? data.tools_run.join(" + ") : (data.tool || "Inspector");
     const issues = data.issues || [];
 
-    // إذا كانت القائمة فارغة تماماً (لا أخطاء ولا تنبيهات)
+    // If clean (no errors or warnings)
     if (issues.length === 0) {
-        showAlert(container, `✔ نتائج الفحص (${toolName})`, "الكود سليم تماماً وخالٍ من الأخطاء والتنبيهات!", "success");
+        showAlert(container, `✔ Inspection Results (${toolName})`, "Code is clean! No errors or warnings found.", "success");
         return;
     }
 
-    // رأس ملخص النتائج
+    // Summary header
     const header = document.createElement("p");
     header.style.fontWeight = "bold";
     header.style.marginBottom = "12px";
-    header.textContent = `تم اكتشاف ${data.total_issues || issues.length} من الأخطاء/التنبيهات (${toolName}):`;
+    header.textContent = `Found ${data.total_issues || issues.length} issues/warnings (${toolName}):`;
     container.appendChild(header);
 
-    // بناء بطاقات الملاحظات
+    // Render issue items
     issues.forEach(issue => {
         const clone = issueTpl.content.cloneNode(true);
         const itemNode = clone.querySelector(".issue-item");
@@ -214,18 +212,18 @@ function renderResults(container, data) {
 
         if (issue.severity) itemNode.classList.add(issue.severity);
 
-        // الشارة (خطأ / تنبيه)
+        // Badge (Error / Warning)
         const badgeNode = clone.querySelector(".issue-badge");
         badgeNode.classList.add(isError ? "badge-error" : "badge-warning");
-        badgeNode.textContent = isError ? "خطأ" : "تنبيه";
+        badgeNode.textContent = isError ? "Error" : "Warning";
 
-        // الموقع واسم الأداة
+        // Location and tool badge
         const toolBadge = issue.tool ? ` [${issue.tool}]` : "";
         const line = issue.line || "?";
         const column = issue.column || "?";
-        clone.querySelector(".issue-location").textContent = `السطر ${line}، العمود ${column}${toolBadge}`;
+        clone.querySelector(".issue-location").textContent = `Line ${line}, Column ${column}${toolBadge}`;
 
-        // نص الرسالة
+        // Issue message
         let cleanMessage = issue.message || "";
         const ruleName = issue.rule || issue.rule_id;
         if (ruleName && cleanMessage.endsWith(`(${ruleName})`)) {
@@ -233,7 +231,7 @@ function renderResults(container, data) {
         }
         clone.querySelector(".issue-message").textContent = cleanMessage;
 
-        // القاعدة
+        // Rule ID
         const ruleElement = clone.querySelector(".issue-rule");
         if (ruleName) {
             ruleElement.textContent = `rule: ${ruleName}`;
@@ -244,4 +242,3 @@ function renderResults(container, data) {
         container.appendChild(clone);
     });
 }
-
