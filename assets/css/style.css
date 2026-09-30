@@ -348,7 +348,8 @@ footer {
 }
 
 .actions-group {
-  display: flex;
-  justify-content: space-between;
+   display: flex;
+   justify-content: space-between;
+   gap: 5px;
 }
 
