@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Direct code inspection button handler
+    // 1. Direct code inspection button
     const inspectBtn = document.getElementById("inspectBtn");
     if (inspectBtn) {
         inspectBtn.addEventListener("click", () => {
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 2. Direct code formatting button handler
+    // 2. Direct code formatting button
     const formatBtn = document.getElementById("formatBtn");
     if (formatBtn) {
         formatBtn.addEventListener("click", () => {
@@ -33,16 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 3. URL code inspection button handler (url-inspector.html)
-    const inspectUrlBtn = document.getElementById("inspectUrlBtn");
-    if (inspectUrlBtn) {
-        inspectUrlBtn.addEventListener("click", () => {
-            const rawUrl = document.getElementById("urlInput").value;
-            inspectUrlCode(rawUrl);
-        });
-    }
-
-    // 4. Synchronized Line Numbers & Editor Logic
+    // 3. Line numbers strictly synchronized scrolling logic
     const codeInput = document.getElementById("codeInput");
     const lineNumbers = document.getElementById("lineNumbers");
 
@@ -56,19 +47,17 @@ document.addEventListener("DOMContentLoaded", () => {
             lineNumbers.scrollTop = codeInput.scrollTop;
         }
 
+        // الأحداث: التحديث التلقائي لأرقام الأسطر والمزامنة التامة للتمرير
         codeInput.addEventListener("input", updateLineNumbers);
+        codeInput.addEventListener("keyup", updateLineNumbers);
         codeInput.addEventListener("scroll", syncScroll);
 
-        // Initial setup
+        // التشغيل المبدئي
         updateLineNumbers();
     }
 });
 
-/* ==========================================
-   Core Engine & API Functions
-   ========================================== */
-
-// A) Inspect direct code input
+/* API Logic */
 async function inspectCode(tool, code) {
     const resultsContainer = document.getElementById("results");
     const inspectBtn = document.getElementById("inspectBtn");
@@ -96,7 +85,7 @@ async function inspectCode(tool, code) {
         renderResults(resultsContainer, data);
     } catch (error) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "❌ Connection Error", `Unable to connect to server. Ensure PythonAnywhere is running. (${error.message})`, "error");
+        showAlert(resultsContainer, "❌ Connection Error", `Unable to connect to server. (${error.message})`, "error");
     } finally {
         if (inspectBtn) {
             inspectBtn.disabled = false;
@@ -105,44 +94,6 @@ async function inspectCode(tool, code) {
     }
 }
 
-// B) Inspect code from raw URL
-async function inspectUrlCode(rawUrl) {
-    const resultsContainer = document.getElementById("results");
-    const inspectUrlBtn = document.getElementById("inspectUrlBtn");
-
-    if (!rawUrl.trim()) {
-        resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "⚠️ Warning:", "Enter raw URL first.");
-        return;
-    }
-
-    if (inspectUrlBtn) {
-        inspectUrlBtn.disabled = true;
-        inspectUrlBtn.innerText = "Fetching & Inspecting...";
-    }
-    resultsContainer.innerHTML = "";
-
-    try {
-        const response = await fetch("https://interactivemathdz.pythonanywhere.com/inspect-url", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: rawUrl })
-        });
-
-        const data = await response.json();
-        renderResults(resultsContainer, data);
-    } catch (error) {
-        resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "❌ Connection Error", `Verify the link and ensure the server is active. (${error.message})`, "error");
-    } finally {
-        if (inspectUrlBtn) {
-            inspectUrlBtn.disabled = false;
-            inspectUrlBtn.innerText = "Fetch & Inspect";
-        }
-    }
-}
-
-// C) Format code
 async function formatCode(language, codeInputEl) {
     const formatBtn = document.getElementById("formatBtn");
     const resultsContainer = document.getElementById("results");
@@ -169,8 +120,7 @@ async function formatCode(language, codeInputEl) {
 
         if (data.status === "success" && data.formatted_code) {
             codeInputEl.value = data.formatted_code;
-            // Dispatch input event to recalculate line numbers after formatting
-            codeInputEl.dispatchEvent(new Event('input'));
+            codeInputEl.dispatchEvent(new Event('input')); // إعادة حساب الأسطر بعد التنسيق
         } else {
             showAlert(resultsContainer, "❌ Formatting Failed:", data.message || "Unknown error occurred.", "error");
         }
@@ -183,10 +133,6 @@ async function formatCode(language, codeInputEl) {
         }
     }
 }
-
-/* ==========================================
-   UI Rendering Helpers
-   ========================================== */
 
 function showAlert(container, title, message, type = "error") {
     const alertTpl = document.getElementById("alert-template");
