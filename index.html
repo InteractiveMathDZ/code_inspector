@@ -1,28 +1,28 @@
 ---
 layout: default
-title: "فاحص كود | Code Inspector."
+title: "Direct Code Inspector | Code Inspector"
 ---
-<h1>الفحص المباشر للكود</h1>
+<h1>Direct Code Inspection</h1>
 
 <div class="input-section"> 
-    <!-- قائمة اختيار اللغة بنفس مفاتيح الباك إند الحالية -->
-    <label for="toolSelect">اختر وسيلة الفحص.</label>
-    <select id="toolSelect" dir="ltr">
-        <option value="python AST">Python AST</option>
+    <!-- Tool selection dropdown -->
+    <label for="toolSelect">Select Inspection Tool</label>
+    <select id="toolSelect">
+        <option value="Python AST">Python AST</option>
         <option value="ESLint">ESLint</option>
         <option value="Bandit">Bandit</option> 
         <option value="PyFlakes">PyFlakes</option>
-        <option value="Complexity">Radon.Complexity</option>
+        <option value="Complexity">Radon Complexity</option>
         <option value="PEP8">PyCodeStyle</option>
         <option value="HTMLValidate">HTMLValidate</option>
         <option value="Stylelint">Stylelint</option>
     </select>
 
-    <label for="codeInput">أدخل الكود البرمجي المراد فحصه.</label>
-    <textarea id="codeInput" dir="ltr" placeholder="ألصق الكود الخاص بك هنا للتحليل..."></textarea>
+    <label for="codeInput">Enter Source Code</label>
+    <textarea id="codeInput" placeholder="Paste your source code here for analysis..."></textarea>
     
     <div class="actions-group">
-        <button id="inspectBtn" type="button">فحص الكود</button>
-        <button id="formatBtn" type="button" class="secondary-btn">✨ تنسيق الكود</button>
+        <button id="inspectBtn" type="button">Inspect Code</button>
+        <button id="formatBtn" type="button" class="secondary-btn">✨ Format Code</button>
     </div>
 </div>
