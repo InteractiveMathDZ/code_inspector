@@ -3,14 +3,13 @@
 <script src="{{ '/assets/js/inspectionEngine.js' | relative_url }}"></script>
 
 <script>
-  // التحقق من وجود وسم الآدمن قبل تحميل وتشغيل الكونسول
+// Check for the admin tag before loading and running the console.
   if (localStorage.getItem("role") === "admin") {
-    // 1. إنشاء عنصر سكريبت لتحميل المكتبة ديناميكياً
+    // 1. Create a script element to dynamically load the library.
     var script = document.createElement("script");
     script.src = "https://unpkg.com/vconsole@latest/dist/vconsole.min.js";
-
+    // 2. Activate the console after the library has finished loading.
     script.onload = function () {
-      // 2. تشغيل الكونسول بعد اكتمال تحميل المكتبة
       window.vConsole = new window.VConsole();
     };
 
