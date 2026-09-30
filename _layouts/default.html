@@ -2,20 +2,19 @@
 <html lang="en" dir="ltr">
   <head>
     {%- include analytics.html -%}
-    <meta charset="UTF-8" >
+    <meta charset="UTF-8">
     {%- include site_version.html -%}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
     {%- include head_links.html -%}
   </head>
   <body>
-    <div
-      class="container my-2 py-2 main-content-wrapper"
-    >
+    <div class="container my-2 py-2 main-content-wrapper">
       <h1>Code Inspector</h1>
       {%- include sidebar.html -%}
       {{ content }}
-      <!-- Result's container -->
+      
+      <!-- Results container -->
       <div id="results"></div>
 
       <!-- Messages and warnings template -->
@@ -38,7 +37,8 @@
            </div>
         </template>
     </div>
-    {%- include footer.html -%} {%- include scripts.html
-    -%}
+    
+    {%- include footer.html -%}
+    {%- include scripts.html -%}
   </body>
 </html>
