@@ -41,6 +41,31 @@ document.addEventListener("DOMContentLoaded", () => {
             inspectUrlCode(rawUrl);
         });
     }
+
+    // 4.
+    const codeInput = document.getElementById("codeInput");
+    const lineNumbers = document.getElementById("lineNumbers");
+
+    if (!codeInput || !lineNumbers) return;
+
+    // تحديث أرقام الأسطر في الوقت الفعلي
+    function updateLineNumbers() {
+        const lines = codeInput.value.split("\n").length;
+        const numbers = Array.from({ length: lines }, (_, i) => i + 1).join("\n");
+        lineNumbers.textContent = numbers;
+    }
+
+    // مزامنة التمرير الرأسي بين الكود وأرقام الأسطر
+    function syncScroll() {
+        lineNumbers.scrollTop = codeInput.scrollTop;
+    }
+
+    // الأحداث: التحديث عند الكتابة والتلصيق، والمزامنة عند التمرير
+    codeInput.addEventListener("input", updateLineNumbers);
+    codeInput.addEventListener("scroll", syncScroll);
+
+    // التشغيل المبدئي عند تحميل الصفحة
+    updateLineNumbers();
 });
 
 /* ==========================================
