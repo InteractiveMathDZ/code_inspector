@@ -148,8 +148,7 @@ select {
   direction: ltr !important;
   text-align: left !important;
   white-space: pre;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   resize: none;
   field-sizing: content;   
    
