@@ -254,7 +254,7 @@ function showAlert(container, title, message, type = "error") {
 // 1. دالة فرعية لتنسيق الشارة (التعقيد: 4)
 function setupBadge(badgeNode, severity) {
     const isError = severity === "error" || severity === 2;
-    badgeNode.classList.add(isError ? "error" : "warning");
+    badgeNode.classList.add(isError ? "badge-error" : "badge-warning");
     badgeNode.textContent = isError ? "Error" : "Warning";
 }
 
@@ -278,6 +278,9 @@ function cleanRuleMessage(message = "", ruleName) {
 function createIssueNode(issue, template) {
     const clone = template.content.cloneNode(true);
     const ruleName = issue.rule || issue.ruleId;
+
+    const itemNode = clone.querySelector(".issue-item");
+    if (itemNode && issue.severity) itemNode.classList.add(issue.severity);
 
     setupBadge(clone.querySelector(".issue-badge"), issue.severity);
 
