@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Direct code inspection button
+function addEventToInspectBtn() {
     const inspectBtn = document.getElementById("inspectBtn");
     if (inspectBtn) {
         inspectBtn.addEventListener("click", () => {
@@ -8,12 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
             inspectCode(tool, code);
         });
     }
+}
 
-    // 2. Direct code formatting button
+function addEventToFormatBtn(CodeInputEl) {
     const formatBtn = document.getElementById("formatBtn");
     if (formatBtn) {
         formatBtn.addEventListener("click", () => {
-            const codeInputEl = document.getElementById("codeInput");
+            
             const toolSelectEl = document.getElementById("toolSelect");
 
             const toolToLang = {
@@ -32,24 +32,32 @@ document.addEventListener("DOMContentLoaded", () => {
             formatCode(language, codeInputEl);
         });
     }
+}
+    
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Direct code inspection button
+    addEventToInspectBtn();
+
+    // 2. Direct code formatting button
+    const codeInputEl = document.getElementById("codeInput");
+    addEventToFormatBtn(CodeInputEl);
 
     // 3. Line numbers strictly synchronized scrolling logic
-    const codeInput = document.getElementById("codeInput");
     const lineNumbers = document.getElementById("lineNumbers");
 
-    if (codeInput && lineNumbers) {
+    if (codeInputEl && lineNumbers) {
         function updateLineNumbers() {
-            const lines = codeInput.value.split("\n").length;
+            const lines = codeInputEl.value.split("\n").length;
             lineNumbers.textContent = Array.from({ length: lines }, (_, i) => i + 1).join("\n");
         }
 
         function adjustHeight() {
-            codeInput.style.height = 'auto'; // إعادة ضبط الارتفاع أولاً لحساب scrollHeight بشكل صحيح عند الحذف
-            codeInput.style.height = codeInput.scrollHeight + 'px';
+            codeInputEl.style.height = 'auto'; // إعادة ضبط الارتفاع أولاً لحساب scrollHeight بشكل صحيح عند الحذف
+            codeInputEl.style.height = codeInputEl.scrollHeight + 'px';
         }
 
         // الأحداث: التحديث التلقائي لأرقام الأسطر والمزامنة التامة للتمرير
-        codeInput.addEventListener("input", () => {
+        codeInputEl.addEventListener("input", () => {
             updateLineNumbers();
             adjustHeight();
         });
@@ -71,9 +79,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (copyBtn) {
             copyBtn.addEventListener("click", () => {
-                  handleCopyCode(codeInput.value, copyBtn);
+                  handleCopyCode(codeInputEl.value, copyBtn);
             });
          }
+
+        const clearBtn = document.getElementById("clearBtn");
+
+        if (clearBtn) {
+            clearBtn.addEventListener("click", () => {
+                  codeInputEl.value = "";
+            });
+        }
 
 
         // التشغيل المبدئي
