@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (copyBtn) {
             copyBtn.addEventListener("click", () => {
-                  handleCopyCode(codeInputEl.value, copyBtn);
+                  handleCopyCode(codeInput.value, copyBtn);
             });
          }
 
