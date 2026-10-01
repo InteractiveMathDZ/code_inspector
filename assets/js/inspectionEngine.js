@@ -43,17 +43,20 @@ document.addEventListener("DOMContentLoaded", () => {
             lineNumbers.textContent = Array.from({ length: lines }, (_, i) => i + 1).join("\n");
         }
 
-        function syncScroll() {
-            lineNumbers.scrollTop = codeInput.scrollTop;
+        function adjustHeight() {
+            codeInput.style.height = 'auto'; // إعادة ضبط الارتفاع أولاً لحساب scrollHeight بشكل صحيح عند الحذف
+            codeInput.style.height = codeInput.scrollHeight + 'px';
         }
 
         // الأحداث: التحديث التلقائي لأرقام الأسطر والمزامنة التامة للتمرير
-        codeInput.addEventListener("input", updateLineNumbers);
-        codeInput.addEventListener("keyup", updateLineNumbers);
-        codeInput.addEventListener("scroll", syncScroll);
+        codeInput.addEventListener("input", () => {
+            updateLineNumbers();
+            adjustHeight();
+        });
 
         // التشغيل المبدئي
         updateLineNumbers();
+        adjustHeight();
     }
 });
 
