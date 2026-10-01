@@ -159,7 +159,7 @@ function showAlert(container, title, message, type = "error") {
     container.appendChild(clone);
 }
 
-function createIssueNode(issue, template) {
+/*function createIssueNode(issue, template) {
     const clone = template.content.cloneNode(true);
     const isError = issue.severity === "error" || issue.severity === 2;
     
@@ -180,6 +180,51 @@ function createIssueNode(issue, template) {
         cleanMessage = cleanMessage.replace(`(${ruleName})`, "").trim();
     }
     clone.querySelector(".issue-message").textContent = cleanMessage;
+
+    const ruleElement = clone.querySelector(".issue-rule");
+    if (ruleName) {
+        ruleElement.textContent = `rule: ${ruleName}`;
+    } else {
+        ruleElement.remove();
+    }
+
+    return clone;
+}*/
+
+// 1. دالة فرعية لتنسيق الشارة (التعقيد: 4)
+function setupBadge(badgeNode, severity) {
+    const isError = severity === "error" || severity === 2;
+    badgeNode.classList.add(isError ? "error" : "warning");
+    badgeNode.textContent = isError ? "Error" : "Warning";
+}
+
+// 2. دالة فرعية لتنسيق نص الموقع (التعقيد: 4)
+function formatLocation(issue) {
+    const line = issue.line || 1;
+    const column = issue.column || 1;
+    const toolBadge = issue.tool ? ` [${issue.tool}]` : "";
+    return `Line ${line}, Column ${column}${toolBadge}`;
+}
+
+// 3. دالة فرعية لتنظيف الرسالة من اسم القاعدة (التعقيد: 3)
+function cleanRuleMessage(message = "", ruleName) {
+    if (ruleName && message.includes(`(${ruleName})`)) {
+        return message.replace(`(${ruleName})`, "").trim();
+    }
+    return message;
+}
+
+// 4. الدالة الرئيسية بعد التفكيك (التعقيد: 4 فقط)
+function createIssueNode(issue, template) {
+    const clone = template.content.cloneNode(true);
+    const ruleName = issue.rule || issue.ruleId;
+
+    setupBadge(clone.querySelector(".issue-badge"), issue.severity);
+
+    clone.querySelector(".issue-location").textContent = formatLocation(issue);
+
+    clone.querySelector(".issue-message").textContent =
+        cleanRuleMessage(issue.message, ruleName);
 
     const ruleElement = clone.querySelector(".issue-rule");
     if (ruleName) {
