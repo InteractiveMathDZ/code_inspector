@@ -141,21 +141,28 @@ select {
   flex: 1 1 auto !important;
   min-width: 0 !important;
   width: 100% !important;
-  height: 280px;
+
+  min-height: 200px;
+  height: auto;
+   
   padding: 10px 12px !important;
   margin: 0;
   border: none !important;
+   
   outline: none !important;
   background: transparent;
   color: #c9d1d9;
+   
   direction: ltr !important;
   text-align: left !important;
   
   white-space: pre;
   overflow-x: auto;
-  overflow-y: auto;
-  resize: vertical;
-  
+  overflow-y: hiden;
+  resize: none;
+
+  field-sizing: content;
+   
   /* توحيد الخط وارتفاع السطر مع شريط الأرقام بالضبط */
   font-family: 'Fira Code', Consolas, Monaco, monospace !important;
   font-size: 14px !important;
