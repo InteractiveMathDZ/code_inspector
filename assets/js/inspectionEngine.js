@@ -88,7 +88,12 @@ async function inspectCode(tool, code) {
         renderResults(resultsContainer, data);
     } catch (error) {
         resultsContainer.innerHTML = "";
-        showAlert(resultsContainer, "❌ Connection Error", `Unable to connect to server. (${error.message})`, "error");
+        showAlert(
+               resultsContainer,
+               "❌ Connection Error",
+               `Unable to connect to server. (${error.message})`,
+               "error"
+        );
     } finally {
         if (inspectBtn) {
             inspectBtn.disabled = false;
@@ -125,7 +130,12 @@ async function formatCode(language, codeInputEl) {
             codeInputEl.value = data.formatted_code;
             codeInputEl.dispatchEvent(new Event('input')); // إعادة حساب الأسطر بعد التنسيق
         } else {
-            showAlert(resultsContainer, "❌ Formatting Failed:", data.message || "Unknown error occurred.", "error");
+            showAlert(
+                resultsContainer,
+                "❌ Formatting Failed:",
+                data.message || "Unknown error occurred.",
+                "error"
+            );
         }
     } catch (error) {
         showAlert(resultsContainer, "❌ Connection Error", error.message, "error");
@@ -162,14 +172,21 @@ function renderResults(container, data) {
     const issues = data.issues || [];
 
     if (issues.length === 0) {
-        showAlert(container, `✔ Inspection Results (${toolName})`, "Code is clean! No errors or warnings found.", "success");
+        showAlert(
+            container,
+            `✔ Inspection Results (${toolName})`,
+            "Code is clean! No errors or warnings found.",
+            "success"
+        );
         return;
     }
 
     const header = document.createElement("p");
     header.style.fontWeight = "bold";
     header.style.marginBottom = "12px";
-    header.textContent = `Found ${data.total_issues || issues.length} issues/warnings (${toolName}):`;
+    const count = data.total_issues || issues.length;
+    header.textContent = `Found ${count} issues/warnings (${toolName}):`;
+
     container.appendChild(header);
 
     issues.forEach(issue => {
@@ -186,7 +203,8 @@ function renderResults(container, data) {
         const toolBadge = issue.tool ? ` [${issue.tool}]` : "";
         const line = issue.line || "?";
         const column = issue.column || "?";
-        clone.querySelector(".issue-location").textContent = `Line ${line}, Column ${column}${toolBadge}`;
+        clone.querySelector(".issue-location").textContent = 
+                `Line ${line}, Column ${column}${toolBadge}`;
 
         let cleanMessage = issue.message || "";
         const ruleName = issue.rule || issue.rule_id;
