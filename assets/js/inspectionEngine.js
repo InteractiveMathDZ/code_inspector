@@ -54,6 +54,19 @@ document.addEventListener("DOMContentLoaded", () => {
             adjustHeight();
         });
 
+        window.addEventListener("focus", () => {
+            updateLineNumbers();
+            adjustHeight();
+        });
+
+        // 3. تحديث الأسطر عند العودة للتبويب (Tab Visibility)
+        document.addEventListener("visibilitychange", () => {
+             if (document.visibilityState === "visible") {
+                  updateLineNumbers();
+                  adjustHeight();
+             }
+        });
+
         const copyBtn = document.getElementById("copyBtn");
 
         if (copyBtn) {
