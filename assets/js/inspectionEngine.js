@@ -223,38 +223,6 @@ function showAlert(container, title, message, type = "error") {
     container.appendChild(clone);
 }
 
-/*function createIssueNode(issue, template) {
-    const clone = template.content.cloneNode(true);
-    const isError = issue.severity === "error" || issue.severity === 2;
-    
-    const badgeNode = clone.querySelector(".issue-badge");
-    badgeNode.classList.add(isError ? "error" : "warning");
-    badgeNode.textContent = isError ? "Error" : "Warning";
-
-    const line = issue.line || 1;
-    const column = issue.column || 1;
-    const toolBadge = issue.tool ? ` [${issue.tool}]` : "";
-
-    clone.querySelector(".issue-location").textContent =
-        `Line ${line}, Column ${column}${toolBadge}`;
-
-    let cleanMessage = issue.message || "";
-    const ruleName = issue.rule || issue.ruleId;
-    if (ruleName && cleanMessage.includes(`(${ruleName})`)) {
-        cleanMessage = cleanMessage.replace(`(${ruleName})`, "").trim();
-    }
-    clone.querySelector(".issue-message").textContent = cleanMessage;
-
-    const ruleElement = clone.querySelector(".issue-rule");
-    if (ruleName) {
-        ruleElement.textContent = `rule: ${ruleName}`;
-    } else {
-        ruleElement.remove();
-    }
-
-    return clone;
-}*/
-
 // 1. دالة فرعية لتنسيق الشارة (التعقيد: 4)
 function setupBadge(badgeNode, severity) {
     const isError = severity === "error" || severity === 2;
@@ -334,38 +302,6 @@ function renderResults(container, data) {
     container.appendChild(header);
 
     issues.forEach(issue => {
-        /*const clone = issueTpl.content.cloneNode(true);
-        const itemNode = clone.querySelector(".issue-item");
-        const isError = issue.severity === "error" || issue.type === "error";
-
-        if (issue.severity) itemNode.classList.add(issue.severity);
-
-        const badgeNode = clone.querySelector(".issue-badge");
-        badgeNode.classList.add(isError ? "badge-error" : "badge-warning");
-        badgeNode.textContent = isError ? "Error" : "Warning";
-
-        const toolBadge = issue.tool ? ` [${issue.tool}]` : "";
-        const line = issue.line || "?";
-        const column = issue.column || "?";
-        clone.querySelector(".issue-location").textContent = 
-                `Line ${line}, Column ${column}${toolBadge}`;
-
-        let cleanMessage = issue.message || "";
-        const ruleName = issue.rule || issue.rule_id;
-        if (ruleName && cleanMessage.endsWith(`(${ruleName})`)) {
-            cleanMessage = cleanMessage.slice(0, -`(${ruleName})`.length).trim();
-        }
-        clone.querySelector(".issue-message").textContent = cleanMessage;
-
-        const ruleElement = clone.querySelector(".issue-rule");
-        if (ruleName) {
-            ruleElement.textContent = `rule: ${ruleName}`;
-        } else {
-            ruleElement.remove();
-        }
-
-        container.appendChild(clone);
-        */
         container.appendChild(createIssueNode(issue, issueTpl));
     });
 }
