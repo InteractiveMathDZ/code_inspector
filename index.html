@@ -5,6 +5,14 @@ title: "Direct Code Inspector | Code Inspector"
 <h1>Direct Code Inspection</h1>
 
 <div class="input-section"> 
+    
+    <!-- Label is outside the wrapper -->
+    <label for="codeInput">Enter Source Code</label>
+    <div class="editor-wrapper">
+        <div id="lineNumbers" class="line-numbers">1</div>
+        <textarea id="codeInput" placeholder="Paste your source code here for analysis..." wrap="off" spellcheck="false"></textarea>
+    </div>
+
     <!-- Tool selection dropdown -->
     <label for="toolSelect">Select Inspection Tool</label>
     <select id="toolSelect">
@@ -17,13 +25,6 @@ title: "Direct Code Inspector | Code Inspector"
         <option value="HTMLValidate">HTMLValidate</option>
         <option value="Stylelint">Stylelint</option>
     </select>
-
-    <!-- Label is outside the wrapper -->
-    <label for="codeInput">Enter Source Code</label>
-    <div class="editor-wrapper">
-        <div id="lineNumbers" class="line-numbers">1</div>
-        <textarea id="codeInput" placeholder="Paste your source code here for analysis..." wrap="off" spellcheck="false"></textarea>
-    </div>
 
     <div class="actions-group">
         <button id="inspectBtn" type="button">Inspect Code</button>
