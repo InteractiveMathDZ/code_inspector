@@ -87,7 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (clearBtn) {
             clearBtn.addEventListener("click", () => {
-                  codeInputEl.value = "";
+                codeInputEl.value = "";
+                codeInputEl.dispatchEvent(new Event("input")); // يُحفّز إعادة تحديث الأسطر والارتفاع فوراً
+                document.getElementById("results").innerHTML = "";
             });
         }
 
