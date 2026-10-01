@@ -220,6 +220,40 @@ button:hover {
   right: 0;
 }
 
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-primary);
+  cursor: pointer;
+  width: auto;
+  padding: 0;
+}
+
+.menu-nav a {
+  display: block;
+  padding: 12px;
+  color: var(--text-primary);
+  text-decoration: none;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: background 0.2s;
+}
+
+.menu-nav a:hover, .menu-nav a.active {
+  background-color: var(--primary-color);
+  color: var(--primary-text);
+}
+
 .menu-overlay {
   position: fixed;
   top: 0;
@@ -253,3 +287,85 @@ button:hover {
 }
 .issue-item.error { border-left-color: var(--error-color); }
 .issue-item.warning { border-left-color: var(--warning-color); }
+
+.issue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge-error {
+  background: var(--error-color);
+  color: #ffffff; 
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.badge-warning {
+  background: var(--warning-color);
+  color: #000000; 
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.issue-message {
+  margin: 8px 0 4px 0;
+  color: var(--issue-text);
+  text-align: left;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.issue-rule {
+  color: var(--issue-subtext);
+  display: block;
+  text-align: left;
+}
+
+footer {
+  background-color: var(--footer-bg);
+  padding: 30px 0;
+  margin-top: 40px;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.footer-links-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.important-links-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+}
+
+.footer-links-section a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.footer-links-section a:hover {
+  text-decoration: underline;
+}
+
+.copyright-text {
+  font-size: 14px;
+  color: var(--footer-text);
+}
