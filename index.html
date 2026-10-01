@@ -14,18 +14,20 @@ title: "Direct Code Inspector | Code Inspector"
     </div>
 
     <label for="toolSelect">Select Inspection Tool</label>
+    <!-- Tool selection dropdown -->
+    <select id="toolSelect">
+        <option value="Python AST">Python AST</option>
+        <option value="ESLint">ESLint</option>
+        <option value="Bandit">Bandit</option> 
+        <option value="PyFlakes">PyFlakes</option>
+        <option value="Complexity">Radon Complexity</option>
+        <option value="PEP8">PyCodeStyle</option>
+        <option value="HTMLValidate">HTMLValidate</option>
+        <option value="Stylelint">Stylelint</option>
+    </select>
+
     <div class="actions-group">
-        <!-- Tool selection dropdown -->
-        <select id="toolSelect">
-            <option value="Python AST">Python AST</option>
-            <option value="ESLint">ESLint</option>
-            <option value="Bandit">Bandit</option> 
-            <option value="PyFlakes">PyFlakes</option>
-            <option value="Complexity">Radon Complexity</option>
-            <option value="PEP8">PyCodeStyle</option>
-            <option value="HTMLValidate">HTMLValidate</option>
-            <option value="Stylelint">Stylelint</option>
-        </select>
+        <button id="clearBtn" type="button">📋 Clear Code</button>
         <button id="copyBtn" type="button">📋 Copy Code</button>
     </div>
 
