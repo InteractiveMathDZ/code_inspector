@@ -54,11 +54,42 @@ document.addEventListener("DOMContentLoaded", () => {
             adjustHeight();
         });
 
+        const copyBtn = document.getElementById("copyBtn");
+
+        if (copyBtn) {
+            copyBtn.addEventListener("click", () => {
+                  handleCopyCode(codeInputEl.value, copyBtn);
+            });
+         }
+
+
         // التشغيل المبدئي
         updateLineNumbers();
         adjustHeight();
     }
 });
+
+// دالة مساعدة معالجة للنسخ وإعطاء التغذية الراجعة (التعقيد: 2 فقط)
+async function handleCopyCode(text, buttonEl) {
+    if (!text.trim()) {
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(text);
+        const originalText = buttonEl.textContent;
+        
+        buttonEl.textContent = "✔ Copied!";
+        buttonEl.disabled = true;
+
+        setTimeout(() => {
+            buttonEl.textContent = originalText;
+            buttonEl.disabled = false;
+        }, 2000);
+    } catch (err) {
+        console.error("Clipboard copy failed:", err);
+    }
+}
 
 /* API Logic */
 async function inspectCode(tool, code) {
