@@ -1,6 +1,6 @@
 ## Code Inspector
 ​A lightweight, high-performance static code analysis and linting platform designed to inspect, validate, and format source code across four core web and backend languages:
-​* **Python**
+* **Python**
 * **​JavaScript**
 * **​CSS**
 * **​HTML**
