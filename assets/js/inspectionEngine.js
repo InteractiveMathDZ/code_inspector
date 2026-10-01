@@ -9,7 +9,7 @@ function addEventToInspectBtn() {
     }
 }
 
-function addEventToFormatBtn(CodeInputEl) {
+function addEventToFormatBtn(codeInputEl) {
     const formatBtn = document.getElementById("formatBtn");
     if (formatBtn) {
         formatBtn.addEventListener("click", () => {
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Direct code formatting button
     const codeInputEl = document.getElementById("codeInput");
-    addEventToFormatBtn(CodeInputEl);
+    addEventToFormatBtn(codeInputEl);
 
     // 3. Line numbers strictly synchronized scrolling logic
     const lineNumbers = document.getElementById("lineNumbers");
