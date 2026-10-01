@@ -8,11 +8,11 @@
 :root {
   --bg-primary: #f0f2f5;
   --text-primary: #1f2937;
-  --card-bg: #ffffff;
+  --card-bg: #fff;
   --border-color: #e2e8f0;
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
-  --primary-text: #ffffff;
+  --primary-text: #fff;
   --footer-bg: #f8fafc;
   --footer-text: #6b7280;
   --shadow-soft: 0 4px 6px -1px rgb(0, 0, 0, 0.05);
@@ -36,7 +36,7 @@
     --border-color: #374151;
     --primary-color: #3b82f6;
     --primary-hover: #2563eb;
-    --primary-text: #ffffff;
+    --primary-text: #fff;
     --footer-bg: #111827;
     --footer-text: #9ca3af;
     --shadow-soft: 0 4px 6px -1px rgb(0, 0, 0, 0.2);
@@ -309,7 +309,7 @@ button:hover {
 
 .badge-error {
   background: var(--error-color);
-  color: #ffffff; 
+  color: #fff; 
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -318,7 +318,7 @@ button:hover {
 
 .badge-warning {
   background: var(--warning-color);
-  color: #000000; 
+  color: #000; 
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -326,10 +326,9 @@ button:hover {
 }
 
 .issue-message {
-  margin: 8px 0 4px 0;
+  margin: 8px 0 4px;
   color: var(--issue-text);
   text-align: left;
-  word-break: break-word;
   overflow-wrap: break-word;
 }
 
