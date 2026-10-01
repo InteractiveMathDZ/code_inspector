@@ -297,7 +297,8 @@ function renderResults(container, data) {
     header.style.fontWeight = "bold";
     header.style.marginBottom = "12px";
     const count = data.total_issues || issues.length;
-    header.textContent = `Found ${count} issues/warnings (${toolName}):`;
+    const issueLabel = count === 1 ? "issue/warning" : "issues/warnings";
+    header.textContent = `Found ${count} ${issueLabel} (${toolName}):`;
 
     container.appendChild(header);
 
