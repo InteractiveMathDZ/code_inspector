@@ -128,9 +128,9 @@ async function handleCopyCode(text, buttonEl) {
 async function inspectCode(tool, code) {
     const resultsContainer = document.getElementById("results");
     const inspectBtn = document.getElementById("inspectBtn");
-
+    resultsContainer.innerHTML = "";
+    
     if (!code.trim()) {
-        resultsContainer.innerHTML = "";
         showAlert(resultsContainer, "⚠️ Warning:", "Enter your code first.");
         return;
     }
@@ -139,7 +139,6 @@ async function inspectCode(tool, code) {
         inspectBtn.disabled = true;
         inspectBtn.innerText = "Inspecting...";
     }
-    resultsContainer.innerHTML = "";
 
     try {
         const response = await fetch("https://interactivemathdz.pythonanywhere.com/inspect", {
@@ -170,7 +169,8 @@ async function formatCode(language, codeInputEl) {
     const formatBtn = document.getElementById("formatBtn");
     const resultsContainer = document.getElementById("results");
     const code = codeInputEl.value;
-
+    resultsContainer.innerHTML = "";
+    
     if (!code.trim()) {
         showAlert(resultsContainer, "⚠️ Warning:", "Please enter code first to format.");
         return;
