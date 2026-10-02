@@ -161,7 +161,7 @@ async function inspectCode(tool, code) {
     } finally {
         if (inspectBtn) {
             inspectBtn.disabled = false;
-            inspectBtn.innerText = "Inspect Code";
+            inspectBtn.innerText = "🔍 Inspect Code";
         }
     }
 }
