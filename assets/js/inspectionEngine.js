@@ -3,7 +3,9 @@ function addEventToInspectBtn() {
   if (inspectBtn) {
     inspectBtn.addEventListener("click", () => {
       const code = document.getElementById("codeInput").value;
-      const lang = document.getElementById("languageSelect").value.toLowerCase();
+      const lang = document
+        .getElementById("languageSelect")
+        .value.toLowerCase();
       inspectCode(lang, code);
     });
   }
@@ -30,66 +32,65 @@ document.addEventListener("DOMContentLoaded", () => {
   // 3. Line numbers strictly synchronized scrolling logic
   const lineNumbers = document.getElementById("lineNumbers");
 
-    function updateLineNumbers() {
-      const lines = codeInputEl.value.split("\n").length;
-      lineNumbers.textContent = Array.from(
-        { length: lines },
-        (_, i) => i + 1,
-      ).join("\n");
-    }
+  function updateLineNumbers() {
+    const lines = codeInputEl.value.split("\n").length;
+    lineNumbers.textContent = Array.from(
+      { length: lines },
+      (_, i) => i + 1,
+    ).join("\n");
+  }
 
-    function adjustHeight() {
-      codeInputEl.style.height = "auto"; // إعادة ضبط الارتفاع أولاً لحساب scrollHeight بشكل صحيح عند الحذف
-      codeInputEl.style.height = codeInputEl.scrollHeight + "px";
-    }
+  function adjustHeight() {
+    codeInputEl.style.height = "auto"; // إعادة ضبط الارتفاع أولاً لحساب scrollHeight بشكل صحيح عند الحذف
+    codeInputEl.style.height = codeInputEl.scrollHeight + "px";
+  }
 
-    // الأحداث: التحديث التلقائي لأرقام الأسطر والمزامنة التامة للتمرير
-    codeInputEl.addEventListener("input", () => {
-      updateLineNumbers();
-      adjustHeight();
-    });
-
-    codeInputEl.addEventListener('scroll', () => {
-       lineNumbers.scrollTop = codeInputEl.scrollTop;
-    });
-
-    window.addEventListener("focus", () => {
-      updateLineNumbers();
-      adjustHeight();
-    });
-
-    // 3. تحديث الأسطر عند العودة للتبويب (Tab Visibility)
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") {
-        updateLineNumbers();
-        adjustHeight();
-      }
-    });
-
-    // التشغيل المبدئي
+  // الأحداث: التحديث التلقائي لأرقام الأسطر والمزامنة التامة للتمرير
+  codeInputEl.addEventListener("input", () => {
     updateLineNumbers();
     adjustHeight();
+  });
+
+  codeInputEl.addEventListener("scroll", () => {
+    lineNumbers.scrollTop = codeInputEl.scrollTop;
+  });
+
+  window.addEventListener("focus", () => {
+    updateLineNumbers();
+    adjustHeight();
+  });
+
+  // 3. تحديث الأسطر عند العودة للتبويب (Tab Visibility)
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      updateLineNumbers();
+      adjustHeight();
+    }
+  });
+
+  // التشغيل المبدئي
+  updateLineNumbers();
+  adjustHeight();
 
   const copyBtn = document.getElementById("copyBtn");
 
   if (copyBtn) {
-      copyBtn.addEventListener("click", () => {
-        handleCopyCode(codeInputEl.value, copyBtn);
-      });
+    copyBtn.addEventListener("click", () => {
+      handleCopyCode(codeInputEl.value, copyBtn);
+    });
   }
 
   const clearBtn = document.getElementById("clearBtn");
 
   if (clearBtn) {
-      clearBtn.addEventListener("click", () => {
-        codeInputEl.value = "";
-        codeInputEl.dispatchEvent(new Event("input")); // يُحفّز إعادة تحديث الأسطر والارتفاع فوراً
-        document.getElementById("results").innerHTML = "";
-        updateLineNumbers();
-        adjustHeight();
-      });
+    clearBtn.addEventListener("click", () => {
+      codeInputEl.value = "";
+      codeInputEl.dispatchEvent(new Event("input")); // يُحفّز إعادة تحديث الأسطر والارتفاع فوراً
+      document.getElementById("results").innerHTML = "";
+      updateLineNumbers();
+      adjustHeight();
+    });
   }
-
 });
 
 // دالة مساعدة معالجة للنسخ وإعطاء التغذية الراجعة (التعقيد: 2 فقط)
@@ -131,41 +132,41 @@ async function inspectCode(lang, code) {
   }
 
   const langToTools = {
-    "python": ["Python AST", "Bandit", "PyFlakes", "Complexity", "PEP8"],
-    "javascript": ["ESLint"],
-    "css": ["Stylelint"],
-    "html": ["HTMLValidate"]
-  }
+    python: ["Python AST", "Bandit", "PyFlakes", "Complexity", "PEP8"],
+    javascript: ["ESLint"],
+    css: ["Stylelint"],
+    html: ["HTMLValidate"],
+  };
 
   const tools = langToTools[lang] || [];
 
-  for ( const tool of tools ) {
-      try {
-          const response = await fetch(
-            "https://interactivemathdz.pythonanywhere.com/inspect",
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ code: code, tool: tool }),
-            },
-        );
+  for (const tool of tools) {
+    try {
+      const response = await fetch(
+        "https://interactivemathdz.pythonanywhere.com/inspect",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code: code, tool: tool }),
+        },
+      );
 
-        const data = await response.json();
-        renderResults(resultsContainer, data);
-        } catch (error) {
-            resultsContainer.innerHTML = "";
-            showAlert(
-                resultsContainer,
-                "❌ Connection Error",
-                `Unable to connect to server. (${error.message})`,
-                "error",
-            );
-         } finally {
-            if (inspectBtn) {
-                inspectBtn.disabled = false;
-                inspectBtn.innerText = "🔍 Inspect Code";
-            }
-          }
+      const data = await response.json();
+      renderResults(resultsContainer, data);
+    } catch (error) {
+      resultsContainer.innerHTML = "";
+      showAlert(
+        resultsContainer,
+        "❌ Connection Error",
+        `Unable to connect to server. (${error.message})`,
+        "error",
+      );
+    } finally {
+      if (inspectBtn) {
+        inspectBtn.disabled = false;
+        inspectBtn.innerText = "🔍 Inspect Code";
+      }
+    }
   }
 }
 
