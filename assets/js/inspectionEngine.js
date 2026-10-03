@@ -50,13 +50,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.addEventListener("focus", () => {
-    updateLineNumbers();
+    setTimeout(() => {
+      updateLineNumbers();
+    }, 50);
   });
 
   // 3. تحديث الأسطر عند العودة للتبويب (Tab Visibility)
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
-      updateLineNumbers();
+      setTimeout(() => {
+        updateLineNumbers();
+      }, 50);
     }
   });
 
