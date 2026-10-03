@@ -79,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
       codeInputEl.dispatchEvent(new Event("input")); // يُحفّز إعادة تحديث الأسطر والارتفاع فوراً
       document.getElementById("results").innerHTML = "";
       updateLineNumbers();
-      adjustHeight();
     });
   }
 });
