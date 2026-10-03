@@ -21,30 +21,33 @@ title: "Direct Code Inspector | Code Inspector"
     <!-- أزرار الإجراءات الثانوية كأيقونات سريعة -->
     <div class="quick-tools">
       <button type="button" id="copyBtn" class="icon-btn" title="نسخ الكود">
-        📋 <span class="btn-text">نسخ</span>
+        📋 <span class="btn-text">copy</span>
       </button>
       <button type="button" id="clearBtn" class="icon-btn danger" title="مسح المحرر">
-        🗑️ <span class="btn-text">مسح</span>
+        🗑️ <span class="btn-text">clear</span>
       </button>
     </div>
   </header>
 
   <!-- 2. منطقة المحرر القابلة للتمرير (Scrollable Editor Body) -->
   <main class="editor-body">
-    <textarea 
-      id="codeEditor" 
-      placeholder="// ألصق الكود هنا لفضحه أو تنسيقه..." 
-      spellcheck="false"
-    ></textarea>
+    <div class="editor-wrapper">
+        <div id="lineNumbers" class="line-numbers">1</div>
+        <textarea 
+            id="codeEditor" 
+            placeholder="Paste your source code here for analysis..."
+            spellcheck="false"
+        ></textarea>
+    </div>
   </main>
 
   <!-- 3. الشريط السفلي الثابت للأزرار الرئيسية (Sticky Bottom Footer) -->
   <footer class="editor-footer">
     <button type="button" id="inspectBtn" class="action-btn btn-inspect">
-      🔍 فحص الكود
+      🔍 Inspect
     </button>
     <button type="button" id="formatBtn" class="action-btn btn-format">
-      ✨ تنسيق الكود
+      ✨ Format
     </button>
   </footer>
 
