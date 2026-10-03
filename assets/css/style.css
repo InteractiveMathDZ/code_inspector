@@ -55,6 +55,139 @@ body {
   direction: ltr !important;
 }
 
+/* Container الرئيسي لمساحة العمل */
+.workbench-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  height: 75vh; /* ارتفاع ثابت يناسب الهواتف والحواسيب */
+  min-height: 450px;
+  border: 1px solid #2e3440;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #1e1e2e;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* 1. الشريط العلوي الثابت */
+.editor-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background-color: #181825;
+  border-bottom: 1px solid #313244;
+}
+
+.lang-dropdown {
+  background-color: #313244;
+  color: #cdd6f4;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.quick-tools {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid #45475a;
+  color: #cdd6f4;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+  background-color: #313244;
+}
+
+.icon-btn.danger:hover {
+  background-color: #f38ba822;
+  border-color: #f38ba8;
+  color: #f38ba8;
+}
+
+/* 2. منطقة محرر الكود (تمدد وتمرير داخلي) */
+.editor-body {
+  flex: 1; /* يأخذ كل المساحة المتبقية بين الهيدر والفوتر */
+  position: relative;
+  overflow: hidden;
+}
+
+.editor-body textarea {
+  width: 100%;
+  height: 100%;
+  background-color: #1e1e2e;
+  color: #a6adc8;
+  border: none;
+  padding: 14px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none; /* منع التمديد اليدوي لعدم إفساد الهيكل */
+  outline: none;
+  overflow-y: auto; /* التمرير ينحصر داخل النص فقط */
+}
+
+/* 3. الشريط السفلي الثابت للأزرار */
+.editor-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  background-color: #181825;
+  border-top: 1px solid #313244;
+}
+
+.action-btn {
+  flex: 1; /* توزيع الأزرار بنسب متساوية */
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.2s ease;
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+.btn-inspect {
+  background-color: #89b4fa;
+  color: #11111b;
+}
+
+.btn-format {
+  background-color: #a6e3a1;
+  color: #11111b;
+}
+
+/* للتجاوب مع الهواتف الصغير جداً */
+@media (max-width: 480px) {
+  .btn-text {
+    display: none; /* إخفاء نصوص الأزرار العلوية والإبقاء على الأيقونات فقط في الهواتف */
+  }
+}
+
 .container {
   max-width: 900px;
   margin: 20px auto;
