@@ -62,7 +62,7 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  height: 65vh; /* ارتفاع ثابت يناسب الهواتف والحواسيب */
+  height: 70vh; /* ارتفاع ثابت يناسب الهواتف والحواسيب */
   min-height: 450px;
   border: 1px solid #2e3440;
   border-radius: 12px;
@@ -283,7 +283,7 @@ select {
   direction: ltr !important;
   text-align: left !important;
   white-space: pre;
-  overflow: auto hidden;
+  overflow: auto !important;
   resize: none; 
    
   /* توحيد الخط وارتفاع السطر مع شريط الأرقام بالضبط */
