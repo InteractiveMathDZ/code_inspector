@@ -67,17 +67,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    const copyBtn = document.getElementById("copyBtn");
+    // التشغيل المبدئي
+    updateLineNumbers();
+    adjustHeight();
+  }
 
-    if (copyBtn) {
+  const copyBtn = document.getElementById("copyBtn");
+
+  if (copyBtn) {
       copyBtn.addEventListener("click", () => {
         handleCopyCode(codeInputEl.value, copyBtn);
       });
-    }
+  }
 
-    const clearBtn = document.getElementById("clearBtn");
+  const clearBtn = document.getElementById("clearBtn");
 
-    if (clearBtn) {
+  if (clearBtn) {
       clearBtn.addEventListener("click", () => {
         codeInputEl.value = "";
         codeInputEl.dispatchEvent(new Event("input")); // يُحفّز إعادة تحديث الأسطر والارتفاع فوراً
@@ -85,12 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
         updateLineNumbers();
         adjustHeight();
       });
-    }
-
-    // التشغيل المبدئي
-    updateLineNumbers();
-    adjustHeight();
   }
+
 });
 
 // دالة مساعدة معالجة للنسخ وإعطاء التغذية الراجعة (التعقيد: 2 فقط)
