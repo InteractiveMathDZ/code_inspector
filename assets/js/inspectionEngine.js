@@ -3,8 +3,8 @@ function addEventToInspectBtn() {
   if (inspectBtn) {
     inspectBtn.addEventListener("click", () => {
       const code = document.getElementById("codeInput").value;
-      const tool = document.getElementById("toolSelect").value;
-      inspectCode(tool, code);
+      const lang = document.getElementById("languageSelect").value.toLowerCase();
+      inspectCode(lang, code);
     });
   }
 }
@@ -13,21 +13,7 @@ function addEventToFormatBtn(codeInputEl) {
   const formatBtn = document.getElementById("formatBtn");
   if (formatBtn) {
     formatBtn.addEventListener("click", () => {
-      const toolSelectEl = document.getElementById("toolSelect");
-
-      const toolToLang = {
-        ESLint: "js",
-        HTMLValidate: "html",
-        Stylelint: "css",
-        PyCodeStyle: "python",
-        PyFlakes: "python",
-        Bandit: "python",
-        "Python AST": "python",
-      };
-
-      const selectedTool = toolSelectEl ? toolSelectEl.value : "ESLint";
-      const language = toolToLang[selectedTool] || "js";
-
+      const language = document.getElementById("languageSelect").value;
       formatCode(language, codeInputEl);
     });
   }
@@ -126,7 +112,7 @@ async function handleCopyCode(text, buttonEl) {
 }
 
 /* API Logic */
-async function inspectCode(tool, code) {
+function inspectCode(lang, code) {
   const resultsContainer = document.getElementById("results");
   const inspectBtn = document.getElementById("inspectBtn");
   resultsContainer.innerHTML = "";
@@ -141,6 +127,16 @@ async function inspectCode(tool, code) {
     inspectBtn.innerText = "Inspecting...";
   }
 
+  const langToTools = {
+    "python": ["Python AST", "Bandit", "PyFlakes", "Complexity", "PEP8"],
+    "javascript": ["ESLint"],
+    "css": ["Stylelint"],
+    "html": ["HTMLValidate"]
+  }
+
+  const tools = langToTools[lang] || [];
+
+    
   try {
     const response = await fetch(
       "https://interactivemathdz.pythonanywhere.com/inspect",
