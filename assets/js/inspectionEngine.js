@@ -286,7 +286,6 @@ function createIssueNode(issue, template) {
 }
 
 function renderResults(container, data) {
-  container.innerHTML = "";
   const issueTpl = document.getElementById("issue-template");
 
   if (data.raw_error) {
