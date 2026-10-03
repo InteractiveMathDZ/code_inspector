@@ -117,7 +117,7 @@ async function handleCopyCode(text, buttonEl) {
 }
 
 /* API Logic */
-function inspectCode(lang, code) {
+async function inspectCode(lang, code) {
   const resultsContainer = document.getElementById("results");
   const inspectBtn = document.getElementById("inspectBtn");
   resultsContainer.innerHTML = "";
@@ -141,32 +141,33 @@ function inspectCode(lang, code) {
 
   const tools = langToTools[lang] || [];
 
-    
-  try {
-    const response = await fetch(
-      "https://interactivemathdz.pythonanywhere.com/inspect",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: code, tool: tool }),
-      },
-    );
+  for ( const tool of tools ) {
+      try {
+          const response = await fetch(
+            "https://interactivemathdz.pythonanywhere.com/inspect",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code: code, tool: tool }),
+            },
+        );
 
-    const data = await response.json();
-    renderResults(resultsContainer, data);
-  } catch (error) {
-    resultsContainer.innerHTML = "";
-    showAlert(
-      resultsContainer,
-      "❌ Connection Error",
-      `Unable to connect to server. (${error.message})`,
-      "error",
-    );
-  } finally {
-    if (inspectBtn) {
-      inspectBtn.disabled = false;
-      inspectBtn.innerText = "🔍 Inspect Code";
-    }
+        const data = await response.json();
+        renderResults(resultsContainer, data);
+        } catch (error) {
+            resultsContainer.innerHTML = "";
+            showAlert(
+                resultsContainer,
+                "❌ Connection Error",
+                `Unable to connect to server. (${error.message})`,
+                "error",
+            );
+         } finally {
+            if (inspectBtn) {
+                inspectBtn.disabled = false;
+                inspectBtn.innerText = "🔍 Inspect Code";
+            }
+          }
   }
 }
 
