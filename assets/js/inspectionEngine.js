@@ -40,15 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ).join("\n");
   }
 
-  function adjustHeight() {
-    codeInputEl.style.height = "auto"; // إعادة ضبط الارتفاع أولاً لحساب scrollHeight بشكل صحيح عند الحذف
-    codeInputEl.style.height = codeInputEl.scrollHeight + "px";
-  }
-
   // الأحداث: التحديث التلقائي لأرقام الأسطر والمزامنة التامة للتمرير
   codeInputEl.addEventListener("input", () => {
     updateLineNumbers();
-    adjustHeight();
   });
 
   codeInputEl.addEventListener("scroll", () => {
@@ -57,20 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("focus", () => {
     updateLineNumbers();
-    adjustHeight();
   });
 
   // 3. تحديث الأسطر عند العودة للتبويب (Tab Visibility)
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
       updateLineNumbers();
-      adjustHeight();
     }
   });
 
   // التشغيل المبدئي
   updateLineNumbers();
-  adjustHeight();
 
   const copyBtn = document.getElementById("copyBtn");
 
