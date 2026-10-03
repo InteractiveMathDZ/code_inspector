@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // 3. Line numbers strictly synchronized scrolling logic
   const lineNumbers = document.getElementById("lineNumbers");
 
-  if (codeInputEl && lineNumbers) {
     function updateLineNumbers() {
       const lines = codeInputEl.value.split("\n").length;
       lineNumbers.textContent = Array.from(
@@ -51,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     codeInputEl.addEventListener('scroll', () => {
-       lineNumbers.scrollTop = codeInput.scrollTop;
+       lineNumbers.scrollTop = codeInputEl.scrollTop;
     });
 
     window.addEventListener("focus", () => {
@@ -70,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // التشغيل المبدئي
     updateLineNumbers();
     adjustHeight();
-  }
 
   const copyBtn = document.getElementById("copyBtn");
 
