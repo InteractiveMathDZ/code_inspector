@@ -50,6 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
       adjustHeight();
     });
 
+    codeInputEl.addEventListener('scroll', () => {
+       lineNumbers.scrollTop = codeInput.scrollTop;
+    });
+
     window.addEventListener("focus", () => {
       updateLineNumbers();
       adjustHeight();
