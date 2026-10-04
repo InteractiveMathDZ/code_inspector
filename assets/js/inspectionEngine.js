@@ -113,6 +113,8 @@ async function handleCopyCode(text, buttonEl) {
 async function inspectCode(lang, code) {
   const resultsContainer = document.getElementById("results");
   const inspectBtn = document.getElementById("inspectBtn");
+  codeInputEl = document.getElementById("codeInput");
+  getLanguage(codeInputEl, language);
   resultsContainer.innerHTML = "";
 
   if (!code.trim()) {
@@ -168,6 +170,7 @@ async function formatCode(language, codeInputEl) {
   const formatBtn = document.getElementById("formatBtn");
   const resultsContainer = document.getElementById("results");
   const code = codeInputEl.value;
+  getLanguage(codeInputEl, language);
   resultsContainer.innerHTML = "";
 
   if (!code.trim()) {
@@ -315,3 +318,119 @@ function renderResults(container, data) {
     container.appendChild(createIssueNode(issue, issueTpl));
   });
 }
+
+/**
+ * يستنتج لغة البرمجة ويظهر تلميحاً عائماً إذا اختلفت عن اللغة المحددة
+ * @param {HTMLTextAreaElement|HTMLElement} codeInputEl - عنصر محرر الكود
+ * @param {string} selectedLanguage - اللغة المحددة حالياً في المنسدلة
+ * @returns {string} اللغة المستنتجة (أو السائدة)
+ */
+function getLanguage(codeInputEl, selectedLanguage) {
+  const code = codeInputEl ? codeInputEl.value : "";
+  const currentLang = (selectedLanguage || "").toLowerCase().trim();
+
+  // 1. خوارزمية فحص المؤشرات النحوية للكود
+  const detectedLang = detectCodeLanguage(code);
+
+  // 2. المقارنة وإظهار التلميح العائم إذا وجد اختلاف واضح
+  if (detectedLang && detectedLang !== currentLang) {
+    showLanguageMismatchHint(detectedLang, currentLang);
+  } else {
+    hideLanguageMismatchHint(); // إخفاء التلميح إذا توافقت اللغتان
+  }
+
+  return detectedLang || currentLang;
+}
+
+/**
+ * خوارزمية تخمين اللغة بناءً على كثرة الأنماط المميزة لكل لغة
+ */
+function detectCodeLanguage(code) {
+  if (!code || code.trim().length < 10) return null; // تجنب التخمين للكود القصير جداً
+
+  const trimmed = code.trim();
+
+  // فحص HTML
+  if (/^\s*<!DOCTYPE\s+html/i.test(trimmed) || /<html[\s>]/i.test(trimmed) || (/<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed))) {
+    return "html";
+  }
+
+  // فحص CSS
+  const cssMatches = (code.match(/[a-zA-Z0-9_-]+\s*:\s*[^;]+;/g) || []).length;
+  const hasBraces = /[\{\}]/.test(code);
+  const hasJsKeywords = /\b(function|const|let|var|if|return)\b/.test(code);
+  if (hasBraces && cssMatches >= 2 && !hasJsKeywords) {
+    return "css";
+  }
+
+  // النقاط المترجحة للمقارنة بين Python و JavaScript
+  let pyScore = 0;
+  let jsScore = 0;
+
+  // مؤشرات بايثون
+  if (/\b(def|import|from|elif|lambda|pass|with|self|print|None|True|False)\b/.test(code)) pyScore += 3;
+  if (/:\s*$/m.test(code)) pyScore += 2; // نهاية الأسطر بالنقطتين
+  if (/^\s*#\s+/m.test(code)) pyScore += 1; // التعليقات بـ #
+
+  // مؤشرات جافاسكريبت
+  if (/\b(const|let|var|function|console\.log|document|window|export|import\s+.*\s+from|return)\b/.test(code)) jsScore += 3;
+  if (/=>/.test(code)) jsScore += 2; // أسلوب Arrow Functions
+  if (/;\s*$/m.test(code)) jsScore += 1; // نهاية الأسطر بـ ;
+
+  if (pyScore > jsScore && pyScore >= 3) return "python";
+  if (jsScore > pyScore && jsScore >= 3) return "javascript";
+
+  return null; // تعذر التخمين بدقة
+}
+
+function showLanguageMismatchHint(detectedLang, currentLang) {
+  let hintEl = document.getElementById("langMismatchHint");
+
+  // إنشاء عنصر النافذة العائمة إذا لم يكن موجوداً
+  if (!hintEl) {
+    hintEl = document.createElement("div");
+    hintEl.id = "langMismatchHint";
+    hintEl.className = "lang-hint-popover";
+    document.body.appendChild(hintEl);
+  }
+
+  const langNames = {
+    python: "Python 🐍",
+    javascript: "JavaScript ⚡",
+    css: "CSS 🎨",
+    html: "HTML 🌐"
+  };
+
+  const detectedName = langNames[detectedLang] || detectedLang;
+
+  hintEl.innerHTML = `
+    <span>💡 يبدو أن الكود ينتمي لـ <strong>${detectedName}</strong>!</span>
+    <button type="button" id="switchLangBtn" class="hint-switch-btn">تغيير إلى ${detectedName}</button>
+    <button type="button" id="closeHintBtn" class="hint-close-btn">&times;</button>
+  `;
+
+  hintEl.classList.add("show");
+
+  // حدث التبديل المباشر للغة
+  document.getElementById("switchLangBtn").onclick = () => {
+    const langSelect = document.getElementById("languageSelect");
+    if (langSelect) {
+      langSelect.value = detectedLang;
+      langSelect.dispatchEvent(new Event("change"));
+    }
+    hideLanguageMismatchHint();
+  };
+
+  // حدث إغلاق التلميح
+  document.getElementById("closeHintBtn").onclick = () => {
+    hideLanguageMismatchHint();
+  };
+}
+
+function hideLanguageMismatchHint() {
+  const hintEl = document.getElementById("langMismatchHint");
+  if (hintEl) {
+    hintEl.classList.remove("show");
+  }
+}
+
