@@ -114,7 +114,7 @@ async function inspectCode(language, code) {
   const resultsContainer = document.getElementById("results");
   const inspectBtn = document.getElementById("inspectBtn");
   const codeInputEl = document.getElementById("codeInput");
-  let lang = getLanguage(codeInputEl, language);
+  const lang = getLanguage(codeInputEl, language);
   resultsContainer.innerHTML = "";
 
   if (!code.trim()) {
@@ -349,7 +349,9 @@ function detectCodeLanguage(code) {
   const trimmed = code.trim();
 
   // فحص HTML
-  if (/^\s*<!DOCTYPE\s+html/i.test(trimmed) || /<html[\s>]/i.test(trimmed) || (/<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed))) {
+  if (/^\s*<!DOCTYPE\s+html/i.test(trimmed) 
+      || /<html[\s>]/i.test(trimmed) 
+      || (/<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed))) {
     return "html";
   }
 
