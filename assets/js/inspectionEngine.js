@@ -368,14 +368,12 @@ function detectCodeLanguage(code) {
   let jsScore = 0;
 
   // مؤشرات بايثون
-  if (/\b(def|import|from|elif|lambda|pass|with\
-      |self|print|None|True|False)\b/.test(code)) pyScore += 3;
+  if (/\b(def|import|from|elif|lambda|pass|with|self|print|None|True|False)\b/.test(code)) pyScore += 3;
   if (/:\s*$/m.test(code)) pyScore += 2; // نهاية الأسطر بالنقطتين
   if (/^\s*#\s+/m.test(code)) pyScore += 1; // التعليقات بـ #
 
   // مؤشرات جافاسكريبت
-  if (/\b(const|let|var|function|console\.log|document\
-      |window|export|import\s+.*\s+from|return)\b/.test(code)) jsScore += 3;
+  if (/\b(const|let|var|function|console\.log|document|window|export|import\s+.*\s+from|return)\b/.test(code)) jsScore += 3;
   if (/=>/.test(code)) jsScore += 2; // أسلوب Arrow Functions
   if (/;\s*$/m.test(code)) jsScore += 1; // نهاية الأسطر بـ ;
 
