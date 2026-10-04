@@ -114,7 +114,7 @@ async function inspectCode(lang, code) {
   const resultsContainer = document.getElementById("results");
   const inspectBtn = document.getElementById("inspectBtn");
   codeInputEl = document.getElementById("codeInput");
-  getLanguage(codeInputEl, lang);
+  lang = getLanguage(codeInputEl, lang);
   resultsContainer.innerHTML = "";
 
   if (!code.trim()) {
@@ -170,7 +170,7 @@ async function formatCode(language, codeInputEl) {
   const formatBtn = document.getElementById("formatBtn");
   const resultsContainer = document.getElementById("results");
   const code = codeInputEl.value;
-  getLanguage(codeInputEl, language);
+  language = getLanguage(codeInputEl, language);
   resultsContainer.innerHTML = "";
 
   if (!code.trim()) {
@@ -334,12 +334,10 @@ function getLanguage(codeInputEl, selectedLanguage) {
 
   // 2. المقارنة وإظهار التلميح العائم إذا وجد اختلاف واضح
   if (detectedLang && detectedLang !== currentLang) {
-    showLanguageMismatchHint(detectedLang, currentLang);
-  } else {
-    hideLanguageMismatchHint(); // إخفاء التلميح إذا توافقت اللغتان
+    currentLang = showLanguageMismatchHint(detectedLang, currentLang);
   }
 
-  return detectedLang || currentLang;
+  return currentLang;
 }
 
 /**
@@ -384,53 +382,21 @@ function detectCodeLanguage(code) {
 }
 
 function showLanguageMismatchHint(detectedLang, currentLang) {
-  let hintEl = document.getElementById("langMismatchHint");
+  const userAgreed = confirm(
+      `💡 يبدو أن الكود الذي ألصقته ينتمي إلى ${detectedName}!\n\nهل تريد تحويل اللغة المحددة إليها تلقائياً؟`
+    );
 
-  // إنشاء عنصر النافذة العائمة إذا لم يكن موجوداً
-  if (!hintEl) {
-    hintEl = document.createElement("div");
-    hintEl.id = "langMismatchHint";
-    hintEl.className = "lang-hint-popover";
-    document.body.appendChild(hintEl);
-  }
-
-  const langNames = {
-    python: "Python 🐍",
-    javascript: "JavaScript ⚡",
-    css: "CSS 🎨",
-    html: "HTML 🌐"
-  };
-
-  const detectedName = langNames[detectedLang] || detectedLang;
-
-  hintEl.innerHTML = `
-    <span>💡 يبدو أن الكود ينتمي لـ <strong>${detectedName}</strong>!</span>
-    <button type="button" id="switchLangBtn" class="hint-switch-btn">تغيير إلى ${detectedName}</button>
-    <button type="button" id="closeHintBtn" class="hint-close-btn">&times;</button>
-  `;
-
-  hintEl.classList.add("show");
-
-  // حدث التبديل المباشر للغة
-  document.getElementById("switchLangBtn").onclick = () => {
-    const langSelect = document.getElementById("languageSelect");
-    if (langSelect) {
-      langSelect.value = detectedLang;
-      langSelect.dispatchEvent(new Event("change"));
+    if (userAgreed) {
+      const langSelect = document.getElementById("languageSelect");
+      if (langSelect) {
+        langSelect.value = detectedLang;
+        langSelect.dispatchEvent(new Event("change"));
+        return detectedLang;
+      }
     }
-    hideLanguageMismatchHint();
-  };
-
-  // حدث إغلاق التلميح
-  document.getElementById("closeHintBtn").onclick = () => {
-    hideLanguageMismatchHint();
-  };
+    return currentLang;
 }
 
-function hideLanguageMismatchHint() {
-  const hintEl = document.getElementById("langMismatchHint");
-  if (hintEl) {
-    hintEl.classList.remove("show");
-  }
-}
+
+
 
