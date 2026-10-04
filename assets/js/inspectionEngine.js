@@ -113,8 +113,8 @@ async function handleCopyCode(text, buttonEl) {
 async function inspectCode(lang, code) {
   const resultsContainer = document.getElementById("results");
   const inspectBtn = document.getElementById("inspectBtn");
-  codeInputEl = document.getElementById("codeInput");
-  lang = getLanguage(codeInputEl, lang);
+  const codeInputEl = document.getElementById("codeInput");
+  let lang = getLanguage(codeInputEl, lang);
   resultsContainer.innerHTML = "";
 
   if (!code.trim()) {
@@ -327,7 +327,7 @@ function renderResults(container, data) {
  */
 function getLanguage(codeInputEl, selectedLanguage) {
   const code = codeInputEl ? codeInputEl.value : "";
-  const currentLang = (selectedLanguage || "").toLowerCase().trim();
+  let currentLang = (selectedLanguage || "").toLowerCase().trim();
 
   // 1. خوارزمية فحص المؤشرات النحوية للكود
   const detectedLang = detectCodeLanguage(code);
@@ -383,7 +383,7 @@ function detectCodeLanguage(code) {
 
 function showLanguageMismatchHint(detectedLang, currentLang) {
   const userAgreed = confirm(
-      `💡 يبدو أن الكود الذي ألصقته ينتمي إلى ${detectedName}!\n\nهل تريد تحويل اللغة المحددة إليها تلقائياً؟`
+      `💡 يبدو أن الكود الذي ألصقته ينتمي إلى ${detectedLang}!\n\nهل تريد تحويل اللغة المحددة إليها تلقائياً؟`
     );
 
     if (userAgreed) {
