@@ -348,7 +348,8 @@ function isHtmlCode(code) {
   const trimmed = code.trim();
   const hasDocType = /^\s*<!DOCTYPE\s+html/i.test(trimmed);
   const hasHtmlTag = /<html[\s>]/i.test(trimmed);
-  const hasPairedTag = /<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed);
+  const hasPairedTag =
+    /<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed);
 
   return hasDocType || hasHtmlTag || hasPairedTag;
 }
@@ -365,7 +366,8 @@ function isCssCode(code) {
 // 3. تقييم بايثون
 function scorePython(code) {
   let score = 0;
-  const pyKeywords = /\b(def|import|from|elif|lambda|pass|with|self|print|None|True|False)\b/;
+  const pyKeywords =
+    /\b(def|import|from|elif|lambda|pass|with|self|print|None|True|False)\b/;
 
   if (pyKeywords.test(code)) score += 3;
   if (/:\s*$/m.test(code)) score += 2;
