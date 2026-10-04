@@ -349,9 +349,11 @@ function detectCodeLanguage(code) {
   const trimmed = code.trim();
 
   // فحص HTML
-  if (/^\s*<!DOCTYPE\s+html/i.test(trimmed) 
-      || /<html[\s>]/i.test(trimmed) 
-      || (/<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed))) {
+  if (
+    /^\s*<!DOCTYPE\s+html/i.test(trimmed) ||
+    /<html[\s>]/i.test(trimmed) ||
+    (/<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed))
+  ) {
     return "html";
   }
 
@@ -368,12 +370,22 @@ function detectCodeLanguage(code) {
   let jsScore = 0;
 
   // مؤشرات بايثون
-  if (/\b(def|import|from|elif|lambda|pass|with|self|print|None|True|False)\b/.test(code)) pyScore += 3;
+  if (
+    /\b(def|import|from|elif|lambda|pass|with|self|print|None|True|False)\b/.test(
+      code,
+    )
+  )
+    pyScore += 3;
   if (/:\s*$/m.test(code)) pyScore += 2; // نهاية الأسطر بالنقطتين
   if (/^\s*#\s+/m.test(code)) pyScore += 1; // التعليقات بـ #
 
   // مؤشرات جافاسكريبت
-  if (/\b(const|let|var|function|console\.log|document|window|export|import\s+.*\s+from|return)\b/.test(code)) jsScore += 3;
+  if (
+    /\b(const|let|var|function|console\.log|document|window|export|import\s+.*\s+from|return)\b/.test(
+      code,
+    )
+  )
+    jsScore += 3;
   if (/=>/.test(code)) jsScore += 2; // أسلوب Arrow Functions
   if (/;\s*$/m.test(code)) jsScore += 1; // نهاية الأسطر بـ ;
 
@@ -385,21 +397,17 @@ function detectCodeLanguage(code) {
 
 function showLanguageMismatchHint(detectedLang, currentLang) {
   const userAgreed = confirm(
-      `💡 يبدو أن الكود الذي ألصقته ينتمي إلى ${detectedLang}\
-         !\n\nهل تريد تحويل اللغة المحددة إليها تلقائياً؟`
-    );
+    `💡 يبدو أن الكود الذي ألصقته ينتمي إلى ${detectedLang}\
+         !\n\nهل تريد تحويل اللغة المحددة إليها تلقائياً؟`,
+  );
 
-    if (userAgreed) {
-      const langSelect = document.getElementById("languageSelect");
-      if (langSelect) {
-        langSelect.value = detectedLang;
-        langSelect.dispatchEvent(new Event("change"));
-        return detectedLang;
-      }
+  if (userAgreed) {
+    const langSelect = document.getElementById("languageSelect");
+    if (langSelect) {
+      langSelect.value = detectedLang;
+      langSelect.dispatchEvent(new Event("change"));
+      return detectedLang;
     }
-    return currentLang;
+  }
+  return currentLang;
 }
-
-
-
-
