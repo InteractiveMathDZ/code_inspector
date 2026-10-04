@@ -343,56 +343,66 @@ function getLanguage(codeInputEl, selectedLanguage) {
 /**
  * خوارزمية تخمين اللغة بناءً على كثرة الأنماط المميزة لكل لغة
  */
-function detectCodeLanguage(code) {
-  if (!code || code.trim().length < 10) return null; // تجنب التخمين للكود القصير جداً
-
+// 1. فحص HTML
+function isHtmlCode(code) {
   const trimmed = code.trim();
+  const hasDocType = /^\s*<!DOCTYPE\s+html/i.test(trimmed);
+  const hasHtmlTag = /<html[\s>]/i.test(trimmed);
+  const hasPairedTag = /<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed);
 
-  // فحص HTML
-  if (
-    /^\s*<!DOCTYPE\s+html/i.test(trimmed) ||
-    /<html[\s>]/i.test(trimmed) ||
-    (/<[a-z][\s\S]*>/i.test(trimmed) && /<\/[a-z]+>/i.test(trimmed))
-  ) {
-    return "html";
-  }
+  return hasDocType || hasHtmlTag || hasPairedTag;
+}
 
-  // فحص CSS
+// 2. فحص CSS (تم إزالة \ غير الضرورية من الحواضن)
+function isCssCode(code) {
   const cssMatches = (code.match(/[a-zA-Z0-9_-]+\s*:\s*[^;]+;/g) || []).length;
-  const hasBraces = /[\{\}]/.test(code);
+  const hasBraces = /[{}]/.test(code);
   const hasJsKeywords = /\b(function|const|let|var|if|return)\b/.test(code);
-  if (hasBraces && cssMatches >= 2 && !hasJsKeywords) {
-    return "css";
-  }
 
-  // النقاط المترجحة للمقارنة بين Python و JavaScript
-  let pyScore = 0;
-  let jsScore = 0;
+  return hasBraces && cssMatches >= 2 && !hasJsKeywords;
+}
 
-  // مؤشرات بايثون
-  if (
-    /\b(def|import|from|elif|lambda|pass|with|self|print|None|True|False)\b/.test(
-      code,
-    )
-  )
-    pyScore += 3;
-  if (/:\s*$/m.test(code)) pyScore += 2; // نهاية الأسطر بالنقطتين
-  if (/^\s*#\s+/m.test(code)) pyScore += 1; // التعليقات بـ #
+// 3. تقييم بايثون
+function scorePython(code) {
+  let score = 0;
+  const pyKeywords = /\b(def|import|from|elif|lambda|pass|with|self|print|None|True|False)\b/;
 
-  // مؤشرات جافاسكريبت
-  if (
-    /\b(const|let|var|function|console\.log|document|window|export|import\s+.*\s+from|return)\b/.test(
-      code,
-    )
-  )
-    jsScore += 3;
-  if (/=>/.test(code)) jsScore += 2; // أسلوب Arrow Functions
-  if (/;\s*$/m.test(code)) jsScore += 1; // نهاية الأسطر بـ ;
+  if (pyKeywords.test(code)) score += 3;
+  if (/:\s*$/m.test(code)) score += 2;
+  if (/^\s*#\s+/m.test(code)) score += 1;
+
+  return score;
+}
+
+// 4. تقييم جافاسكريبت (تم تقسيم السطر الطويل)
+function scoreJavaScript(code) {
+  let score = 0;
+  const jsKeywords =
+    /\b(const|let|var|function|console\.log|document|window|export|import\s+.*\s+from|return)\b/;
+
+  if (jsKeywords.test(code)) score += 3;
+  if (/=>/.test(code)) score += 2;
+  if (/;\s*$/m.test(code)) score += 1;
+
+  return score;
+}
+
+/**
+ * الدالة الرئيسية المستهدفة (تعقيد منخفض ومطابق لـ ESLint)
+ */
+function detectCodeLanguage(code) {
+  if (!code || code.trim().length < 10) return null;
+
+  if (isHtmlCode(code)) return "html";
+  if (isCssCode(code)) return "css";
+
+  const pyScore = scorePython(code);
+  const jsScore = scoreJavaScript(code);
 
   if (pyScore > jsScore && pyScore >= 3) return "python";
   if (jsScore > pyScore && jsScore >= 3) return "javascript";
 
-  return null; // تعذر التخمين بدقة
+  return null;
 }
 
 function showLanguageMismatchHint(detectedLang, currentLang) {
