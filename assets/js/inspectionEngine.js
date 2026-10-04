@@ -110,11 +110,11 @@ async function handleCopyCode(text, buttonEl) {
 }
 
 /* API Logic */
-async function inspectCode(lang, code) {
+async function inspectCode(language, code) {
   const resultsContainer = document.getElementById("results");
   const inspectBtn = document.getElementById("inspectBtn");
   const codeInputEl = document.getElementById("codeInput");
-  let lang = getLanguage(codeInputEl, lang);
+  let lang = getLanguage(codeInputEl, language);
   resultsContainer.innerHTML = "";
 
   if (!code.trim()) {
