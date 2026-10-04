@@ -114,7 +114,7 @@ async function inspectCode(lang, code) {
   const resultsContainer = document.getElementById("results");
   const inspectBtn = document.getElementById("inspectBtn");
   codeInputEl = document.getElementById("codeInput");
-  getLanguage(codeInputEl, language);
+  getLanguage(codeInputEl, lang);
   resultsContainer.innerHTML = "";
 
   if (!code.trim()) {
