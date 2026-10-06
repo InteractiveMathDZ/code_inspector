@@ -321,6 +321,12 @@ button:hover {
   color: var(--text-primary) !important;
 }
 
+.list-group-item {
+  background-color: var(--card-bg);
+  /*color: #e0e0e0 !important;
+  border-color: #333 !important;*/
+}
+
 .menu-btn {
   background: var(--card-bg);
   color: var(--text-primary);
