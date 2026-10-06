@@ -4,8 +4,19 @@
   data-bs-toggle="offcanvas"
   data-bs-target="#sidebarMenu"
 >
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" stroke="#3b82f6" class="bi bi-list-ul" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="currentColor"
+    stroke="#3b82f6"
+    class="bi bi-list-ul"
+    viewBox="0 0 16 16"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
+    />
   </svg>
   <span class="visually-hidden">Services menu</span>
 </button>
@@ -29,10 +40,14 @@
   <div class="offcanvas-body">
     <ul class="list-group list-group-flush p-0" dir="rtl">
       <li class="list-group-item">
-        <a href="{{ '/index.html' | relative_url }}">⚡ Direct Code Inspector</a>
+        <a href="{{ '/index.html' | relative_url }}"
+          >⚡ Direct Code Inspector</a
+        >
       </li>
       <li class="list-group-item">
-        <a href="{{ '/url-inspector.html' | relative_url }}">🔗 URL Code Inspector</a>
+        <a href="{{ '/url-inspector.html' | relative_url }}"
+          >🔗 URL Code Inspector</a
+        >
       </li>
     </ul>
   </div>
