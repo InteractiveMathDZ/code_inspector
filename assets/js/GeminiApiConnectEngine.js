@@ -14,9 +14,9 @@ sendBtn.addEventListener("click", async () => {
   const loadingId = appendMessage("جاري صياغة الإجابة...", "ai", true);
 
   // إرسال الطلب لنفس النموذج المستقر الذي جربناه
-  const promptForMathSite = "أنت مساعد تعليمي لموقع الرياضيات https://github.com/InteractiveMathDZ/Mathematics-for-Final-Grades/. أجب بدقة بناءً على محتوى الموقع.";
+  const promptForCodeInspector = "أنت خبير في فحص الكود البرمجي وإصلاحه لموقع يقوم بفحص كود ، html, css, javascript, python.  الموقع هو https://interactivemathdz.github.io/code_inspector/. أجب بدقة بناءً على ما يقدمه الموقع.";
 
-  askCentralAI(question, promptForMathSite).then(reply => {
+  askCentralAI(question, promptForCodeInspector).then(reply => {
       updateMessage(loadingId, reply);
   });
 });
