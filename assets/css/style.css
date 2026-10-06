@@ -304,6 +304,23 @@ button:hover {
 /* ==========================================================================
    3. Off-Canvas Sidebar Fix
    ========================================================================== */
+.sidebar-button-style {
+  z-index: 1050;
+  background: var(--bg-card);
+  opacity: 75%;
+  padding: 12px 18px;
+}
+
+.bi-list-ul {
+  color: #66b2ff !important;
+}
+
+.offcanvas {
+  transition: background-color 0.3s ease;
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+}
+
 .menu-btn {
   background: var(--card-bg);
   color: var(--text-primary);
