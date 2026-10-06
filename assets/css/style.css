@@ -533,10 +533,10 @@ footer {
   top: 40%;
 }
 
-.offcanvas {
-  transition: background-color 0.3s ease;
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
+.chat-widget {
+  /*--bs-offcanvas-width: 70%;*/
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
 }
 
 .bi-list-ul {
