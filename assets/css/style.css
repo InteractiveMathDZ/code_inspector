@@ -554,7 +554,7 @@ footer {
 }
 
 .bot-response {
-  background: var(--bg-card);
+  background: var(--card-bg);
   color: var(--bs-body-color);
   padding: 10px;
   border-radius: 8px;
@@ -564,7 +564,7 @@ footer {
 }
 
 .user-question {
-  background: var(--bg-card);
+  background: var(--card-bg);
   color: var(--bs-body-color);
   padding: 10px;
   border-radius: 8px;
@@ -575,8 +575,8 @@ footer {
 
 .input-area {
   padding: 15px;
-  background: var(--bg-card);
-  border-top: 1px solid var(--bs-border-color);
+  background: var(--card-bg);
+  border-top: 1px solid var(--border-color);
   display: flex;
   gap: 8px;
 }
@@ -584,7 +584,7 @@ footer {
 #ai-chat-input {
   flex: 1;
   padding: 10px;
-  border: 1px solid var(--bs-border-color);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   outline: none;
   font-size: 14px;
