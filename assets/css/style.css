@@ -286,7 +286,7 @@ select {
 
 button {
   display: block;
-  width: 100%;
+  /* width: 100%;*/
   padding: 12px 20px;
   background-color: var(--primary-color);
   color: var(--primary-text);
