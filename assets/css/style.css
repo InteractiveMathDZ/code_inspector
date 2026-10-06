@@ -306,7 +306,7 @@ button:hover {
    ========================================================================== */
 .sidebar-button-style {
   z-index: 1050;
-  background: var(--bg-card);
+  background: var(--card-bg);
   opacity: 75%;
   padding: 12px 18px;
 }
@@ -317,7 +317,7 @@ button:hover {
 
 .offcanvas {
   --bs-offcanvas-width: 70%;
-  background-color: var(--bg-card) !important;
+  background-color: var(--card-bg) !important;
   color: var(--text-primary) !important;
 }
 
