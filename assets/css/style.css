@@ -315,11 +315,14 @@ button:hover {
   color: #66b2ff !important;
 }
 
+
+/*
 .offcanvas {
   transition: background-color 0.3s ease;
   background-color: var(--bg-card) !important;
   color: var(--text-primary) !important;
 }
+*/
 
 .menu-btn {
   background: var(--card-bg);
